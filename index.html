@@ -8,12 +8,16 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f5f3;color:#1a1a18}
+  html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f5f3;color:#1a1a18}
   #app{display:flex;flex-direction:column}
   #topbar-wrap{position:fixed;top:0;left:0;width:100%;z-index:200}
+  .topbar{background:#1F3864;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
+  .topbar-title{font-size:15px;font-weight:700}
+  .topbar-sub{font-size:12px;opacity:.75;margin-left:auto}
   #map-wrap{position:fixed;top:41px;left:0;width:100%;z-index:100}
   #map{width:100%;height:480px}
   #panel{margin-top:521px;background:#f5f5f3}
+  #loading{padding:40px;text-align:center;color:#888;font-size:14px}
   .day-section{border-bottom:1px solid #e0ddd6}
   .day-header{display:flex;align-items:center;gap:10px;padding:11px 16px;background:#fff;cursor:pointer;user-select:none;border-bottom:1px solid #e0ddd6}
   .day-header:hover{background:#fafaf8}
@@ -36,8 +40,6 @@
   .badge-free{background:#f0efe9;color:#666;border:1px solid #e0ddd6}
   .badge-topay{background:#fff3cd;color:#856404}
   .badge-book{background:#fde8e8;color:#9b1c1c}
-
-  /* MODAL */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:flex-end;justify-content:center}
   .modal-overlay.open{display:flex}
   .modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:720px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 -4px 24px rgba(0,0,0,.15)}
@@ -53,29 +55,23 @@
   .info-label{color:#888;font-weight:500;padding-top:2px}
   .info-value{color:#1a1a18;font-weight:600}
   .desc-text{font-size:13px;color:#333;line-height:1.75;border-top:1px solid #e0ddd6;padding-top:13px}
-  .desc-text strong{font-weight:700;color:#1a1a18}
-
-  /* LEAFLET popup */
   .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
   .leaflet-popup-content{margin:10px 14px;font-family:system-ui,sans-serif;font-size:13px}
   .popup-title{font-weight:700;margin-bottom:2px;color:#1a1a18}
   .popup-day{color:#888;font-size:11px}
-
-  /* top bar */
-  .topbar{background:#1F3864;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;z-index:10}
-  .topbar-title{font-size:15px;font-weight:700}
-  .topbar-sub{font-size:12px;opacity:.75;margin-left:auto}
 </style>
 </head>
 <body>
 <div id="app">
-  <div id="topbar-wrap"><div class="topbar">
-    <span style="font-size:20px">✈</span>
-    <span class="topbar-title">Madeira 2026</span>
-    <span class="topbar-sub">13 – 22 agosto · 4 persone</span>
-  </div></div>
+  <div id="topbar-wrap">
+    <div class="topbar">
+      <span style="font-size:20px">✈</span>
+      <span class="topbar-title" id="trip-title">Madeira 2026</span>
+      <span class="topbar-sub" id="trip-sub">caricamento...</span>
+    </div>
+  </div>
   <div id="map-wrap"><div id="map"></div></div>
-  <div id="panel"></div>
+  <div id="panel"><div id="loading">Caricamento itinerario...</div></div>
 </div>
 
 <div class="modal-overlay" id="modal-overlay">
@@ -93,94 +89,8 @@
 </div>
 
 <script>
-const DAYS = [
-  {date:"13 ago", color:"#534AB7", stops:[
-    {name:"Arrivo Funchal – Aeroporto",icon:"✈",cat:"Volo",stato:"Pagato",costo:"—",dist:"—",lat:32.6941,lng:-16.7784,
-     desc:"Arrivo alle <strong>17:50</strong>. Ritiro auto a noleggio in aeroporto.\nClima: ~24 °C, soleggiato.\n⚠️ Attenzione alle strade strette e ripide di Madeira — guidare con cautela, soprattutto di notte."},
-    {name:"Hotel Feeling Like Home – Machico",icon:"🏨",cat:"Alloggio",stato:"Pagato",costo:"—",dist:"~22 km dall'aeroporto",lat:32.7167,lng:-16.7683,
-     desc:"Check-in a Machico, uno dei borghi più antichi dell'isola, affacciato su una delle poche spiagge di sabbia naturale.\nDistanza aeroporto: ~22 km (~25 min)."}
-  ]},
-  {date:"14 ago", color:"#1D9E75", stops:[
-    {name:"Machico Beach",icon:"🏖",cat:"Spiaggia",stato:"Gratuito",costo:"—",dist:"—",lat:32.7155,lng:-16.7672,
-     desc:"Passeggiata mattutina sulla spiaggia di sabbia scura vulcanica di Machico.\nClima: ~24 °C, ideale per riscaldarsi prima delle attività della giornata."},
-    {name:"Festa della Madonna del Monte",icon:"🎉",cat:"Evento culturale",stato:"Gratuito",costo:"—",dist:"~22 km da Machico",lat:32.6602,lng:-16.8981,
-     desc:"La festa religiosa più importante di Madeira: 14 e 15 agosto a Monte (collina sopra Funchal).\nProcessioni, musica, bancarelle con espetada, bolo do caco e poncha. La chiesa di Nossa Senhora do Monte è decorata con fiori freschi.\n⚠️ Monte dista ~50 km da São Lourenço — organizzare bene i tempi se si fa PR8 la mattina.\n🚡 Funivia speciale: €11 A/R (adulti), servizio 18:00–01:00.\n🚌 Bus speciale: €1,80 corsa singola, servizio 18:00–04:00."},
-    {name:"PR8 – Ponta de São Lourenço",icon:"🥾",cat:"Trekking",stato:"Pagato",costo:"€18 (4 pers.)",dist:"~15 km da Machico",lat:32.7415,lng:-16.6941,
-     desc:"🥾 TREKKING MODERATO — la punta più orientale di Madeira.\nLunghezza: 6 km A/R · Dislivello: ~200 m · Durata: 2,5–3h · Quota: 0–150 m slm.\nClima: soleggiato e ventoso, poca ombra.\n📦 Portare: cappello, crema solare, abbondante acqua.\n✅ Prenotato su SIMplifica (€4,50/pp).\nTerreno roccioso vulcanico con viste spettacolari sull'oceano."},
-    {name:"Hotel Feeling Like Home – Machico",icon:"🏨",cat:"Alloggio",stato:"Pagato",costo:"—",dist:"~30 km da São Lourenço",lat:32.7167,lng:-16.7683,
-     desc:"Rientro in hotel dopo il PR8 e/o la festa di Monte."}
-  ]},
-  {date:"15 ago", color:"#D85A30", stops:[
-    {name:"Miradouros in auto",icon:"🚗",cat:"Panorama / Auto",stato:"Gratuito",costo:"—",dist:"—",lat:32.7351,lng:-16.9229,
-     desc:"Giornata dedicata ai belvedere del massiccio centrale, raggiungibili in auto:\n• Pico do Areeiro (1.818 m slm): parcheggio e ristorante in vetta, vista 360° sopra le nuvole\n• Miradouro Ninho da Manta: belvedere vertiginoso sulla valle\n• Stairway to Heaven: scalinata panoramica sul crinale\n• Pico Ruivo (1.862 m): il punto più alto di Madeira\n• Miradouro do Juncal: vista sulla costa nord\n\nClima in quota: 10–16 °C — portare giacca. Strade strette con tornanti.\n⚠️ 15 agosto = festa nazionale in Portogallo: possibile traffico verso Monte/Funchal."},
-    {name:"Cena Adega do Pomar – ore 21:00",icon:"🍽",cat:"Ristorante",stato:"Da pagare in loco",costo:"—",dist:"Rientro verso Machico",lat:32.7160,lng:-16.7680,
-     desc:"Cena prenotata alle 21:00.\nSpecialità tipiche madeiresi:\n• Espetada: spiedone di carne sul fuoco di alloro\n• Lapas: patelle grigliate con burro e aglio\n• Bolo do caco: pane tipico con burro all'aglio\n• Poncha: distillato di canna da zucchero con agrumi"},
-    {name:"Hotel Feeling Like Home – Machico",icon:"🏨",cat:"Alloggio",stato:"Pagato",costo:"—",dist:"~30 km da Pico Areeiro",lat:32.7167,lng:-16.7683,
-     desc:"Ultima notte a Machico prima di spostarsi verso la costa nord."}
-  ]},
-  {date:"16 ago", color:"#BA7517", stops:[
-    {name:"Miradouro de São Cristóvão",icon:"👁",cat:"Panorama",stato:"Gratuito",costo:"—",dist:"~5 km da Machico",lat:32.7250,lng:-16.8016,
-     desc:"Belvedere sulla costa nord con vista verso Seixal e le maestose scogliere basaltiche.\nBuona posizione per foto panoramiche prima di scendere verso la costa."},
-    {name:"Seixal Beach",icon:"🏖",cat:"Spiaggia",stato:"Gratuito",costo:"—",dist:"~35 km da Machico",lat:32.8077,lng:-17.1083,
-     desc:"Piccola spiaggia di ciottoli neri sulla costa nord, circondata da scogliere basaltiche.\nAcque cristalline e fresche (~20 °C).\nUna cascata naturale sfocia direttamente in mare: scenario unico.\nUna delle spiagge più selvagge e suggestive di Madeira."},
-    {name:"Espaço Infinito Seixal",icon:"🌊",cat:"Piscine naturali",stato:"Ingresso modico",costo:"~€8 (4 pers.)",dist:"~1 km da Seixal Beach",lat:32.8090,lng:-17.1100,
-     desc:"Piscine naturali ricavate nella lava vulcanica a picco sul mare.\nScenario spettacolare con viste sull'oceano Atlantico.\n⚠️ Con mare mosso possono essere chiuse — verificare le condizioni all'arrivo."},
-    {name:"Hotel Santana in Nature B&B",icon:"🏨",cat:"Alloggio",stato:"Pagato",costo:"—",dist:"~25 km da Seixal",lat:32.7957,lng:-16.8817,
-     desc:"Check-in a Santana, famosa per le pittoresche casette tradizionali a tetto di paglia (Casas Típicas).\nZona nord-est dell'isola: più verde e umida.\nClima notturno: ~18 °C."}
-  ]},
-  {date:"17 ago", color:"#993556", stops:[
-    {name:"PR1 – Pico do Areeiro → Pico Ruivo",icon:"🥾",cat:"Trekking",stato:"Pagato",costo:"€42 (4 pers.)",dist:"~20 km da Santana",lat:32.7351,lng:-16.9229,
-     desc:"🥾 TREKKING IMPEGNATIVO — il più iconico di Madeira.\nLunghezza: ~7,4 km · Dislivello: ~900 m · Durata: 4–5h\nQuota: da 1.818 m (Areeiro) a 1.862 m (Pico Ruivo).\nClima: 10–15 °C, vento forte, possibile nebbia.\n✅ Prenotato su SIMplifica (€10,50/pp).\n\n⚠️ SENSO UNICO OBBLIGATORIO: impossibile tornare indietro lungo lo stesso percorso.\nAl termine: scendere a piedi ad Achada do Teixeira (~5 km, ~1h) e prendere il transfer per tornare all'auto a Pico do Areeiro.\n\n📦 Portare: giacca impermeabile, torcia per i tunnel, abbondante acqua e snack energetici."},
-    {name:"Miradouros verso Porto Moniz",icon:"🚗",cat:"Panorama / Auto",stato:"Gratuito",costo:"—",dist:"Lungo il percorso",lat:32.7860,lng:-16.9640,
-     desc:"Soste panoramiche in auto lungo la strada verso Porto Moniz.\nDa valutare in base all'energia residua dopo il PR1."},
-    {name:"The Jolie Porto Moniz",icon:"🏨",cat:"Alloggio",stato:"Pagato (c.gratuita)",costo:"—",dist:"~40 km da Achada do Teixeira",lat:32.8697,lng:-17.1656,
-     desc:"Check-in a Porto Moniz, all'estremo nord-ovest dell'isola.\nHotel con cancellazione gratuita."}
-  ]},
-  {date:"18 ago", color:"#0F6E56", stops:[
-    {name:"Fanal Forest",icon:"🌲",cat:"Natura / Trekking",stato:"Da decidere",costo:"€18 se PR13",dist:"~15 km da Porto Moniz",lat:32.8175,lng:-17.1011,
-     desc:"🌲 FORESTA LAURISILVA — una delle atmosfere più uniche di Madeira.\nAlberi di til e laurel millenari avvolti dalla nebbia, muschio ovunque.\nQuota: 1.000–1.420 m slm · Clima: fresco e umido anche d'estate.\n\n📋 DUE OPZIONI:\n(1) Passeggiata libera intorno al Posto Florestal: gratuita, ~1–2h, nessuna prenotazione\n(2) Sentiero PR13 completo (10,8 km, 3,5–4,5h, moderato): €4,50/pp, prenotare su SIMplifica\n\n💡 Consigliato arrivare all'alba per la nebbia più scenografica."},
-    {name:"Terrabona Nature & Vineyards – ore 16:00",icon:"🍷",cat:"Degustazione vini",stato:"Pagato",costo:"—",dist:"~20 km da Fanal",lat:32.7920,lng:-17.0500,
-     desc:"Visita pomeridiana alle vigne di Terrabona. ✅ Prenotato (inizio ore 16:00).\n\nI vini liquorosi di Madeira sono unici al mondo grazie al processo di 'estufagem':\n• Malmsey: dolce e rotondo\n• Verdelho: semi-secco\n• Sercial: secco e acidulo\n• Bual: semi-dolce\n\nVigneti terrazzati con vista sull'oceano Atlantico.\n⚠️ Non guidare dopo la degustazione — designare un guidatore o attendere."},
-    {name:"The Jolie Porto Moniz",icon:"🏨",cat:"Alloggio",stato:"Pagato (c.gratuita)",costo:"—",dist:"~30 km da Terrabona",lat:32.8697,lng:-17.1656,
-     desc:"Rientro in hotel a Porto Moniz."}
-  ]},
-  {date:"19 ago", color:"#185FA5", stops:[
-    {name:"Ribeira da Janela",icon:"🗿",cat:"Panorama",stato:"Gratuito",costo:"—",dist:"~8 km da Porto Moniz",lat:32.8449,lng:-17.1536,
-     desc:"Foce del fiume con suggestivi monoliti basaltici emergenti dall'oceano.\nBreve sosta panoramica (~20 min) — ottima per fotografie."},
-    {name:"Porto Moniz Natural Swimming Pools",icon:"🌊",cat:"Piscine naturali",stato:"~€2/pp",costo:"~€8 (4 pers.)",dist:"~2 km",lat:32.8697,lng:-17.1656,
-     desc:"Le piscine naturali di lava più famose di Madeira.\nAcqua di mare limpida e protetta dalle rocce laviche.\nServizi: docce, spogliatoi, bar sul posto.\nAdatte anche per famiglie con bambini."},
-    {name:"Achadas da Cruz – Teleferica",icon:"🚡",cat:"Teleferica",stato:"~€3/pp",costo:"~€12 (4 pers.)",dist:"~8 km",lat:32.8500,lng:-17.1900,
-     desc:"Teleferica panoramica a picco verso la costa: 450 m di dislivello.\nViste spettacolari sulle scogliere e sull'oceano.\n⚠️ Orari limitati — verificare in loco prima di arrivare."},
-    {name:"Calheta Beach",icon:"🏖",cat:"Spiaggia",stato:"Gratuito",costo:"—",dist:"~50 km da Achadas da Cruz",lat:32.7178,lng:-17.1710,
-     desc:"Spiaggia artificiale di sabbia dorata sulla costa sud-ovest.\nUna delle poche spiagge sabbiose di Madeira.\nClima: ~26 °C, soleggiato — ideale per rilassarsi dopo le attività mattutine."},
-    {name:"Hotel TarmarPlace – Calheta",icon:"🏨",cat:"Alloggio",stato:"Pagato",costo:"—",dist:"~2 km da Calheta Beach",lat:32.7200,lng:-17.1730,
-     desc:"Check-in a Calheta. Base strategica per il giorno delle levadas (PR6 + PR6.1)."}
-  ]},
-  {date:"20 ago", color:"#A32D2D", stops:[
-    {name:"PR6 – Levada das 25 Fontes",icon:"🥾",cat:"Trekking",stato:"⚠️ DA PRENOTARE",costo:"€18 (4 pers.)",dist:"~25 km da Calheta",lat:32.7539,lng:-17.1089,
-     desc:"🥾 TREKKING FACILE/MODERATO — uno dei sentieri più famosi di Madeira.\nLunghezza: 9 km A/R · Dislivello: ~400 m · Durata: 3–4h\nQuota: 964–1.288 m slm · Clima: fresco e umido nella Laurisilva.\n\nIl sentiero segue la levada fino a una laguna alimentata da 25 sorgenti con cascata spettacolare.\n\n⚠️ DA PRENOTARE su SIMplifica (€4,50/pp).\n💡 Partire prima delle 9:00 per evitare i bus turistici.\n🔦 Portare torcia per il tunnel (~800 m).\n👟 Scarpe waterproof consigliate."},
-    {name:"PR6.1 – Levada do Risco",icon:"🥾",cat:"Trekking",stato:"⚠️ DA PRENOTARE",costo:"€18 (4 pers.)",dist:"Stesso parcheggio PR6 (Rabaçal)",lat:32.7550,lng:-17.1095,
-     desc:"🥾 TREKKING FACILE — da combinare con PR6 nella stessa giornata.\nLunghezza: 2 km A/R · Durata: ~1h · Pianeggiante e ben segnato.\nPorta alla Cascata do Risco, una delle cascate più alte di Madeira.\n\n⚠️ DA PRENOTARE su SIMplifica (€4,50/pp).\nNota: prenotazione separata rispetto a PR6."},
-    {name:"Hotel TarmarPlace – Calheta",icon:"🏨",cat:"Alloggio",stato:"Pagato",costo:"—",dist:"~25 km da Rabaçal",lat:32.7200,lng:-17.1730,
-     desc:"Rientro in hotel a Calheta dopo le levadas."}
-  ]},
-  {date:"21 ago", color:"#8B5E3C", stops:[
-    {name:"Cascata dos Anjos",icon:"💧",cat:"Natura / Cascata",stato:"Gratuito",costo:"—",dist:"~40 km da Calheta",lat:32.7820,lng:-17.0640,
-     desc:"Cascata naturale lungo la strada verso Funchal.\nBreve sosta panoramica (~30 min) — ottima per una foto ricordo prima del trasferimento finale."},
-    {name:"??? – Tappa da definire",icon:"❓",cat:"Da definire",stato:"Da pianificare",costo:"—",dist:"—",lat:32.7490,lng:-17.0200,
-     desc:"⚠️ TAPPA ANCORA DA PIANIFICARE. Siete in transito verso Funchal.\n\nOpzioni consigliate:\n• Câmara de Lobos: pittoresco villaggio di pescatori a 10 min da Funchal, luogo preferito da Winston Churchill per dipingere\n• Cabo Girão: uno dei promontori più alti d'Europa (580 m), skywalk in vetro — considerare se non fatto il 22\n• Jardim Botânico di Funchal: giardini tropicali spettacolari\n• Mercado dos Lavradores: mercato tradizionale con fiori e prodotti locali"},
-    {name:"Hotel Atlântico Azul – Funchal",icon:"🏨",cat:"Alloggio",stato:"Pagato",costo:"—",dist:"~30 km da Cascata dos Anjos",lat:32.6476,lng:-16.9141,
-     desc:"Check-in a Funchal, la capitale di Madeira.\nClima: ~25 °C.\n\n🌆 Idee per la serata:\n• Passeggiata sul lungomare (Avenida do Mar)\n• Cena con specialità locali: espada, lapas, poncha\n• Visita al centro storico\n\nÈ l'ultima serata del viaggio — da godersi!"}
-  ]},
-  {date:"22 ago", color:"#3C3489", stops:[
-    {name:"Cabo Girão – Skywalk",icon:"🏔",cat:"Panorama",stato:"Skywalk ~€2/pp",costo:"~€8 (4 pers.)",dist:"~18 km da Funchal",lat:32.6487,lng:-17.0459,
-     desc:"Uno dei promontori più alti d'Europa: 580 m a picco sul mare.\nSkywalk in vetro trasparente: camminare letteralmente sul vuoto con vista sull'oceano.\nVista sulla costa sud fino a Funchal.\nSosta consigliata: ~1h.\n⚠️ Non adatto a chi soffre di vertigini."},
-    {name:"✈ Partenza – Aeroporto Funchal",icon:"✈",cat:"Volo",stato:"Pagato",costo:"—",dist:"~18 km da Cabo Girão",lat:32.6941,lng:-16.7784,
-     desc:"Rientro all'aeroporto internazionale Cristiano Ronaldo di Funchal.\nDistanza da Cabo Girão: ~18 km (~25 min).\n\n📋 Checklist partenza:\n• Riconsegnare l'auto a noleggio\n• Verificare orario esatto del volo\n• Presentarsi in aeroporto con adeguato anticipo"}
-  ]}
-];
-
 function badgeClass(s){
+  if(!s) return "badge-free";
   if(s.includes("DA PRENOTARE")||s.includes("Da pianificare")) return "badge-book";
   if(s==="Pagato"||s.startsWith("Pagato")) return "badge-paid";
   if(s==="Gratuito") return "badge-free";
@@ -188,58 +98,62 @@ function badgeClass(s){
 }
 
 function descToHtml(text){
+  if(!text) return "";
   return text.split("\n").map(line=>{
-    line = line.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
-    if(line.startsWith("•")) return `<div style="margin:2px 0 2px 8px;color:#333">• ${line.slice(1).trim()}</div>`;
-    if(line.match(/^[⚠️💡📦📋🔦👟🚡🚌🌆📋✅]/u)) return `<div style="margin:6px 0 2px;color:#444">${line}</div>`;
+    if(line.startsWith("•")) return `<div style="margin:2px 0 2px 8px">• ${line.slice(1).trim()}</div>`;
     if(line.trim()==="") return `<div style="height:6px"></div>`;
     return `<div style="margin:2px 0">${line}</div>`;
   }).join("");
 }
 
-let map, markers={};
+let map, markers={}, GIORNI=[];
 
-window.addEventListener("load",()=>{
-  map = L.map("map",{center:[32.76,-17.0],zoom:10});
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-    attribution:'&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',maxZoom:18
-  }).addTo(map);
+function buildUI(data){
+  // Topbar
+  const v=data.viaggio||{};
+  document.getElementById("trip-title").textContent=v.titolo||"Itinerario";
+  document.getElementById("trip-sub").textContent=(v.date||"")+(v.persone?" · "+v.persone+" persone":"");
 
+  GIORNI=data.giorni||[];
+  const panel=document.getElementById("panel");
+  panel.innerHTML="";
   const allCoords=[];
-  DAYS.forEach((day,di)=>{
-    const coords=day.stops.filter(s=>s.lat).map(s=>[s.lat,s.lng]);
-    if(coords.length>1) L.polyline(coords,{color:day.color,weight:3,opacity:.75,dashArray:"7,5"}).addTo(map);
-    day.stops.forEach((stop,si)=>{
+
+  GIORNI.forEach((day,di)=>{
+    const tappe=day.tappe||[];
+    // Polyline
+    const coords=tappe.filter(t=>t.lat).map(t=>[t.lat,t.lng]);
+    if(coords.length>1) L.polyline(coords,{color:day.colore,weight:3,opacity:.75,dashArray:"7,5"}).addTo(map);
+
+    tappe.forEach((stop,si)=>{
       if(!stop.lat) return;
       allCoords.push([stop.lat,stop.lng]);
-      const key=`${di}-${si}`;
+      const key=di+"-"+si;
       const icon=L.divIcon({
-        html:`<div style="background:${day.color};color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)">${stop.icon}</div>`,
+        html:`<div style="background:${day.colore};color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)">${stop.icona||"📍"}</div>`,
         iconSize:[30,30],iconAnchor:[15,15],className:""
       });
       const m=L.marker([stop.lat,stop.lng],{icon}).addTo(map);
-      m.bindPopup(`<div class="popup-title">${stop.name}</div><div class="popup-day">${day.date} &middot; ${stop.cat}</div>`);
+      m.bindPopup(`<div class="popup-title">${stop.nome}</div><div class="popup-day">${day.data} · ${stop.categoria||""}</div>`);
       m.on("click",()=>{
         openModal(di,si);
         const dayBody=document.querySelector(`#stop-${di}-${si}`)?.closest(".day-body");
         if(dayBody&&!dayBody.classList.contains("open")){
           dayBody.classList.add("open");
-          document.getElementById(`chev-${di}`).style.transform="rotate(180deg)";
+          const chev=document.getElementById(`chev-${di}`);
+          if(chev) chev.style.transform="rotate(180deg)";
         }
         centerInPanel(di,si);
       });
       markers[key]=m;
     });
-  });
-  if(allCoords.length) map.fitBounds(allCoords,{padding:[30,30]});
 
-  const panel=document.getElementById("panel");
-  DAYS.forEach((day,di)=>{
+    // Day section
     const sec=document.createElement("div");
     sec.className="day-section";
     const hdr=document.createElement("div");
     hdr.className="day-header";
-    hdr.innerHTML=`<div class="day-dot" style="background:${day.color}"></div><div class="day-label">${day.date}</div><div class="day-sub">${day.stops.length} tappe</div><div class="day-chevron" id="chev-${di}">▾</div>`;
+    hdr.innerHTML=`<div class="day-dot" style="background:${day.colore}"></div><div class="day-label">${day.data}</div><div class="day-sub">${tappe.length} tappe</div><div class="day-chevron" id="chev-${di}">▾</div>`;
     const body=document.createElement("div");
     body.className="day-body";
     if(di===0) body.classList.add("open");
@@ -247,74 +161,97 @@ window.addEventListener("load",()=>{
       body.classList.toggle("open");
       document.getElementById(`chev-${di}`).style.transform=body.classList.contains("open")?"rotate(180deg)":"";
     };
-    day.stops.forEach((stop,si)=>{
+
+    tappe.forEach((stop,si)=>{
       const row=document.createElement("div");
       row.className="stop";
       row.id=`stop-${di}-${si}`;
       row.innerHTML=`
-        <div class="stop-icon" style="background:${day.color}22">${stop.icon}</div>
+        <div class="stop-icon" style="background:${day.colore}22">${stop.icona||"📍"}</div>
         <div class="stop-info">
-          <div class="stop-name">${stop.name}</div>
+          <div class="stop-name">${stop.nome}</div>
           <div class="stop-meta">
-            <span class="badge ${badgeClass(stop.stato)}">${stop.stato}</span>
-            ${stop.costo!=="—"?`<span class="badge badge-free">${stop.costo}</span>`:""}
-            <span class="badge badge-free">${stop.cat}</span>
+            <span class="badge ${badgeClass(stop.stato)}">${stop.stato||"—"}</span>
+            ${stop.costo&&stop.costo!=="—"?`<span class="badge badge-free">${stop.costo}</span>`:""}
+            <span class="badge badge-free">${stop.categoria||""}</span>
           </div>
         </div>`;
       row.onclick=()=>{
         openModal(di,si);
-        const dayBody=row.closest(".day-body");
-        if(!dayBody.classList.contains("open")){
-          dayBody.classList.add("open");
+        if(!body.classList.contains("open")){
+          body.classList.add("open");
           document.getElementById(`chev-${di}`).style.transform="rotate(180deg)";
         }
         if(stop.lat){
           map.setView([stop.lat,stop.lng],13,{animate:false});
           const mapH=map.getSize().y;
-          map.panBy([0, -mapH/4], {animate:true});
-          markers[`${di}-${si}`]?.openPopup();
+          map.panBy([0,-mapH/4],{animate:true});
+          markers[di+"-"+si]?.openPopup();
         }
         centerInPanel(di,si);
       };
       body.appendChild(row);
     });
+
     sec.appendChild(hdr);
     sec.appendChild(body);
     panel.appendChild(sec);
   });
-});
+
+  if(allCoords.length) map.fitBounds(allCoords,{padding:[30,30]});
+}
 
 function centerInPanel(di,si){
   const el=document.getElementById("stop-"+di+"-"+si);
   if(!el) return;
   const fixedH=521;
   const elRect=el.getBoundingClientRect();
-  const elCenter=elRect.top + elRect.height/2;
-  const visibleCenter=fixedH + (window.innerHeight - fixedH)/2;
-  const delta=elCenter - visibleCenter;
-  window.scrollBy({top:delta, behavior:"smooth"});
+  const elCenter=elRect.top+elRect.height/2;
+  const visibleCenter=fixedH+(window.innerHeight-fixedH)/2;
+  const delta=elCenter-visibleCenter;
+  window.scrollBy({top:delta,behavior:"smooth"});
 }
+
 function openModal(di,si){
-  const day=DAYS[di],stop=day.stops[si];
-  document.getElementById("m-icon").textContent=stop.icon;
-  document.getElementById("m-icon").style.background=day.color+"22";
-  document.getElementById("m-title").textContent=stop.name;
-  document.getElementById("m-date").textContent=`${day.date} · ${stop.cat}`;
+  const day=GIORNI[di], stop=day.tappe[si];
+  document.getElementById("m-icon").textContent=stop.icona||"📍";
+  document.getElementById("m-icon").style.background=day.colore+"22";
+  document.getElementById("m-title").textContent=stop.nome;
+  document.getElementById("m-date").textContent=`${day.data} · ${stop.categoria||""}`;
   let html=`<div class="info-grid">`;
-  html+=`<div class="info-label">Stato</div><div><span class="badge ${badgeClass(stop.stato)}">${stop.stato}</span></div>`;
-  if(stop.costo!=="—") html+=`<div class="info-label">Costo (4 pers.)</div><div class="info-value">${stop.costo}</div>`;
-  if(stop.dist!=="—") html+=`<div class="info-label">Distanza</div><div class="info-value">${stop.dist}</div>`;
-  html+=`</div><div class="desc-text">${descToHtml(stop.desc)}</div>`;
+  html+=`<div class="info-label">Stato</div><div><span class="badge ${badgeClass(stop.stato)}">${stop.stato||"—"}</span></div>`;
+  if(stop.costo&&stop.costo!=="—") html+=`<div class="info-label">Costo (4 pers.)</div><div class="info-value">${stop.costo}</div>`;
+  if(stop.distanza&&stop.distanza!=="—") html+=`<div class="info-label">Distanza</div><div class="info-value">${stop.distanza}</div>`;
+  html+=`</div><div class="desc-text">${descToHtml(stop.descrizione)}</div>`;
   document.getElementById("m-body").innerHTML=html;
   document.getElementById("modal-overlay").classList.add("open");
   document.querySelectorAll(".stop").forEach(el=>el.classList.remove("active"));
   document.getElementById(`stop-${di}-${si}`)?.classList.add("active");
 }
+
 function closeModal(){
   document.getElementById("modal-overlay").classList.remove("open");
   document.querySelectorAll(".stop").forEach(el=>el.classList.remove("active"));
 }
 document.getElementById("modal-overlay").onclick=e=>{if(e.target===e.currentTarget)closeModal()};
+
+// Init map then load JSON
+window.addEventListener("load",()=>{
+  map=L.map("map",{center:[32.76,-17.0],zoom:10});
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    attribution:'&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',maxZoom:18
+  }).addTo(map);
+
+  fetch("tappe.json")
+    .then(r=>{
+      if(!r.ok) throw new Error("File non trovato");
+      return r.json();
+    })
+    .then(data=>buildUI(data))
+    .catch(err=>{
+      document.getElementById("panel").innerHTML=`<div style="padding:24px;color:#9b1c1c;font-size:14px">❌ Errore nel caricamento di tappe.json:<br>${err.message}<br><br>Assicurati che il file tappe.json sia nella stessa cartella di index.html.</div>`;
+    });
+});
 </script>
 </body>
 </html>
