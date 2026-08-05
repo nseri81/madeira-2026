@@ -6,6 +6,34 @@
   },
   "giorni": [
     {
+      "data": "11 ago",
+      "colore": "#534ABB7",
+      "tappe": [
+        {
+          "nome": "Arrivo Fin che la barca va",
+          "icona": "✈",
+          "categoria": "Volo",
+          "stato": "Pagato",
+          "costo": "—",
+          "distanza": "—",
+          "lat": 32.6941,
+          "lng": -16.7784,
+          "descrizione": "Arrivo alle 17:50. Ritiro auto a noleggio in aeroporto.\nClima: ~24 °C, soleggiato.\n⚠️ Attenzione alle strade strette e ripide di Madeira — guidare con cautela, soprattutto di notte."
+        },
+        {
+          "nome": "Hotel Feeling Like Home – Machico",
+          "icona": "🏨",
+          "categoria": "Alloggio",
+          "stato": "Pagato",
+          "costo": "—",
+          "distanza": "~22 km dall'aeroporto",
+          "lat": 32.7167,
+          "lng": -16.7683,
+          "descrizione": "Check-in a Machico, uno dei borghi più antichi dell'isola, affacciato su una delle poche spiagge di sabbia naturale.\nDistanza aeroporto: ~22 km (~25 min)."
+        }
+      ]
+    },
+    {
       "data": "13 ago",
       "colore": "#534AB7",
       "tappe": [
