@@ -111,7 +111,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v2.0</span>
+      <span id="version-badge">v2.1</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -315,20 +315,27 @@ function togglePlay(){
 }
 
 function openPlayer(){
+  if(!allStops.length) return; // dati non ancora caricati
   playerOpen=true;
   playerIdx=0;
   document.getElementById("player-bar").classList.add("visible");
   document.getElementById("progress-wrap").style.display="flex";
   document.getElementById("player-toggle").textContent="⏹";
   document.getElementById("player-toggle").title="Chiudi player";
-  // Lascia che il DOM aggiorni l'altezza dell'header
+
+  // Aggiorna subito nome tappa e progress bar con i dati della prima tappa
+  const first=allStops[0];
+  document.getElementById("player-stop").textContent=first.stop.nome;
+  document.getElementById("player-day").textContent=`${first.day.data} · ${first.stop.categoria||""}`;
+  document.getElementById("progress-fill").style.width="0%";
+  document.getElementById("progress-label").textContent=`1 / ${allStops.length}`;
+
   requestAnimationFrame(()=>{
     adjustLayout();
     map.invalidateSize();
-    // Poi mostra il banner del primo giorno
+    // Mostra banner del primo giorno
     setTimeout(()=>{
       showDayBanner(GIORNI[0], ()=>{
-        // Dopo il banner, aspetta un frame extra prima di muovere la mappa
         requestAnimationFrame(()=>{
           map.invalidateSize();
           playerGoto(0, true);
