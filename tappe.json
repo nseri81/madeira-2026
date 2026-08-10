@@ -10,7 +10,7 @@
       "colore": "#534AB7",
       "tappe": [
         {
-          "nome": "Arrivo Funchal – Aeroporto",
+          "nome": "Arrivo – Aeroporto Cristiano Ronaldo",
           "icona": "✈",
           "categoria": "Volo",
           "stato": "Pagato",
@@ -18,10 +18,11 @@
           "distanza": "—",
           "lat": 32.6941,
           "lng": -16.7784,
-          "descrizione": "Arrivo alle 17:50. Ritiro auto a noleggio in aeroporto.\nClima: ~24 °C, soleggiato.\n⚠️ Attenzione alle strade strette e ripide di Madeira — guidare con cautela, soprattutto di notte."
+          "desc_breve": "Arrivo alle 17:50. Ritiro auto a noleggio. Clima ~24 °C.",
+          "desc_lunga": "Arrivo all'Aeroporto Internacional da Madeira – Cristiano Ronaldo alle 17:50.\nRitiro auto a noleggio in aeroporto.\nClima: ~24 °C, soleggiato.\n⚠️ Le strade di Madeira sono strette, ripide e con molti tornanti — guidare con cautela, soprattutto di notte.\nDistanza dall'aeroporto all'alloggio di Machico: ~22 km (~25 min)."
         },
         {
-          "nome": "Hotel Feeling Like Home – Machico",
+          "nome": "Check-in alloggio – Machico",
           "icona": "🏨",
           "categoria": "Alloggio",
           "stato": "Pagato",
@@ -29,7 +30,8 @@
           "distanza": "~22 km dall'aeroporto",
           "lat": 32.7167,
           "lng": -16.7683,
-          "descrizione": "Check-in a Machico, uno dei borghi più antichi dell'isola, affacciato su una delle poche spiagge di sabbia naturale.\nDistanza aeroporto: ~22 km (~25 min)."
+          "desc_breve": "Check-in a Machico, uno dei borghi più antichi dell'isola.",
+          "desc_lunga": "Machico è considerata la prima località dove i navigatori portoghesi sbarcarono a Madeira nel 1419.\nBorgo affacciato su una delle poche spiagge di sabbia naturale dell'isola.\nCentro storico con chiesa manuelina e fortezze. Clima costiero: ~24 °C."
         }
       ]
     },
@@ -38,7 +40,7 @@
       "colore": "#1D9E75",
       "tappe": [
         {
-          "nome": "Machico Beach",
+          "nome": "Spiaggia di Machico",
           "icona": "🏖",
           "categoria": "Spiaggia",
           "stato": "Gratuito",
@@ -46,10 +48,11 @@
           "distanza": "—",
           "lat": 32.7155,
           "lng": -16.7672,
-          "descrizione": "Passeggiata mattutina sulla spiaggia di sabbia scura vulcanica di Machico.\nClima: ~24 °C, ideale per riscaldarsi prima delle attività della giornata."
+          "desc_breve": "Spiaggia di sabbia scura vulcanica nel centro di Machico. Clima ~24 °C.",
+          "desc_lunga": "Una delle poche spiagge di sabbia naturale di Madeira — la sabbia scura è di origine vulcanica.\nDotata di servizi (docce, bar). Ottima per una mattinata di relax prima delle attività serali.\nMare generalmente calmo nella baia protetta."
         },
         {
-          "nome": "Festa della Madonna del Monte",
+          "nome": "Festa de Nossa Senhora do Monte",
           "icona": "🎉",
           "categoria": "Evento culturale",
           "stato": "Gratuito",
@@ -57,29 +60,8 @@
           "distanza": "~22 km da Machico",
           "lat": 32.6602,
           "lng": -16.8981,
-          "descrizione": "La festa religiosa più importante di Madeira: 14 e 15 agosto a Monte (collina sopra Funchal).\nProcessioni, musica, bancarelle con espetada, bolo do caco e poncha.\n⚠️ Monte dista ~50 km da São Lourenço — organizzare bene i tempi se si fa PR8 la mattina.\n🚡 Funivia speciale: €11 A/R (adulti), servizio 18:00–01:00.\n🚌 Bus speciale: €1,80 corsa singola, servizio 18:00–04:00."
-        },
-        {
-          "nome": "PR8 – Ponta de São Lourenço",
-          "icona": "🥾",
-          "categoria": "Trekking",
-          "stato": "Pagato",
-          "costo": "€18 (4 pers.)",
-          "distanza": "~15 km da Machico",
-          "lat": 32.7415,
-          "lng": -16.6941,
-          "descrizione": "🥾 TREKKING MODERATO — la punta più orientale di Madeira.\nLunghezza: 6 km A/R · Dislivello: ~200 m · Durata: 2,5–3h · Quota: 0–150 m slm.\nClima: soleggiato e ventoso, poca ombra.\n📦 Portare: cappello, crema solare, abbondante acqua.\n✅ Prenotato su SIMplifica (€4,50/pp)."
-        },
-        {
-          "nome": "Hotel Feeling Like Home – Machico",
-          "icona": "🏨",
-          "categoria": "Alloggio",
-          "stato": "Pagato",
-          "costo": "—",
-          "distanza": "~30 km da São Lourenço",
-          "lat": 32.7167,
-          "lng": -16.7683,
-          "descrizione": "Rientro in hotel dopo il PR8 e/o la festa di Monte."
+          "desc_breve": "La festa religiosa più importante di Madeira: 14–15 agosto a Monte, sopra Funchal.",
+          "desc_lunga": "La Festa de Nossa Senhora do Monte si svolge il 14 e 15 agosto nel quartiere di Monte, sulla collina sopra Funchal.\nProcessioni religiose, musica tradizionale, bancarelle con espetada, bolo do caco e poncha.\nLa chiesa di Nossa Senhora do Monte, del XVIII secolo, è il cuore della festa ed è decorata con fiori freschi.\n🚡 Funivia speciale: €11 A/R (adulti), servizio 18:00–01:00.\n🚌 Bus speciale Horários do Funchal: €1,80/corsa, servizio 18:00–04:00.\n⚠️ Monte dista ~50 km da Ponta de São Lourenço — organizzare bene i tempi se si fa PR8 il giorno stesso."
         }
       ]
     },
@@ -88,37 +70,64 @@
       "colore": "#D85A30",
       "tappe": [
         {
-          "nome": "Miradouros in auto",
-          "icona": "🚗",
-          "categoria": "Panorama / Auto",
-          "stato": "Gratuito",
-          "costo": "—",
-          "distanza": "—",
-          "lat": 32.7351,
-          "lng": -16.9229,
-          "descrizione": "Giornata dedicata ai belvedere del massiccio centrale, raggiungibili in auto:\n• Pico do Areeiro (1.818 m slm): parcheggio e ristorante in vetta, vista 360° sopra le nuvole\n• Miradouro Ninho da Manta: belvedere vertiginoso sulla valle\n• Stairway to Heaven: scalinata panoramica sul crinale\n• Pico Ruivo (1.862 m): il punto più alto di Madeira\n• Miradouro do Juncal: vista sulla costa nord\n\nClima in quota: 10–16 °C — portare giacca.\n⚠️ 15 agosto = festa nazionale in Portogallo."
+          "nome": "PR8 – Vereda da Ponta de São Lourenço",
+          "icona": "🥾",
+          "categoria": "Trekking",
+          "stato": "Pagato",
+          "costo": "€18 (4 pers.)",
+          "distanza": "~15 km da Machico",
+          "lat": 32.7415,
+          "lng": -16.6941,
+          "desc_breve": "🥾 Trekking moderato. Paesaggio lunare alla punta più orientale di Madeira. 8,6 km A/R, ~3h.",
+          "desc_lunga": "🥾 TREKKING MODERATO — la punta più orientale di Madeira.\nLunghezza: 8,6 km A/R (4,3 km per lato) · Dislivello: ~200 m · Durata: ~3h · Quota: 0–150 m slm.\nPaesaggio semi-desertico e lunare, unico nell'isola: rocce basaltiche, vegetazione rada, vista a 360° sull'Atlantico.\nClima: soleggiato e ventoso, scarsa ombra lungo tutto il percorso.\n📦 Portare: cappello, crema solare ad alta protezione, almeno 1,5L di acqua a persona.\n✅ Prenotato su SIMplifica (€4,50/pp).\nTerreno roccioso e a tratti esposto — attenzione al vento forte in prossimità delle scogliere."
         },
         {
-          "nome": "Cena Adega do Pomar – ore 21:00",
+          "nome": "Ponta do Rosto",
+          "icona": "👁",
+          "categoria": "Panorama",
+          "stato": "Gratuito",
+          "costo": "—",
+          "distanza": "~3 km da São Lourenço",
+          "lat": 32.743,
+          "lng": -16.698,
+          "desc_breve": "Belvedere naturale sulla punta estrema orientale di Madeira.",
+          "desc_lunga": "Punto panoramico naturale vicino alla Ponta de São Lourenço.\nVista sull'oceano Atlantico, sulle scogliere vulcaniche e sulle piccole isole offshore (Ilhéu da Cevada, Ilhéu do Farol).\nNon attrezzato — semplice sosta su roccia. Ottimo per fotografie."
+        },
+        {
+          "nome": "Prainha",
+          "icona": "🏖",
+          "categoria": "Spiaggia",
+          "stato": "Gratuito",
+          "costo": "—",
+          "distanza": "~5 km da Ponta do Rosto",
+          "lat": 32.734,
+          "lng": -16.705,
+          "desc_breve": "Una delle rarissime spiagge di sabbia nera naturale di Madeira.",
+          "desc_lunga": "Prainha (letteralmente 'piccola spiaggia') è una delle poche spiagge di sabbia nera naturale dell'isola.\nFormata da depositi vulcanici antichi. Clima: soleggiato, ~24 °C.\nOttima per un breve bagno prima di proseguire verso Machico.\nParcheggio nei pressi, nessun servizio attrezzato."
+        },
+        {
+          "nome": "Miradouro do Guindaste",
+          "icona": "👁",
+          "categoria": "Panorama",
+          "stato": "Gratuito",
+          "costo": "—",
+          "distanza": "~3 km da Prainha",
+          "lat": 32.7364,
+          "lng": -16.7089,
+          "desc_breve": "Passerelle in legno a picco sul mare. Vista sulla penisola di São Lourenço.",
+          "desc_lunga": "Belvedere attrezzato con passerelle (passadiços) in legno che si protendono a picco sul mare.\nVista sulla penisola di São Lourenço appena percorsa e sulla costa est dell'isola.\nUno dei punti panoramici più fotografati della zona orientale di Madeira.\nAccesso libero, parcheggio nelle vicinanze."
+        },
+        {
+          "nome": "Cena – Adega do Pomar (ore 21:00)",
           "icona": "🍽",
           "categoria": "Ristorante",
           "stato": "Da pagare in loco",
           "costo": "—",
           "distanza": "Rientro verso Machico",
-          "lat": 32.7160,
-          "lng": -16.7680,
-          "descrizione": "Cena prenotata alle 21:00.\nSpecialità tipiche madeiresi:\n• Espetada: spiedone di carne sul fuoco di alloro\n• Lapas: patelle grigliate con burro e aglio\n• Bolo do caco: pane tipico con burro all'aglio\n• Poncha: distillato di canna da zucchero con agrumi"
-        },
-        {
-          "nome": "Hotel Feeling Like Home – Machico",
-          "icona": "🏨",
-          "categoria": "Alloggio",
-          "stato": "Pagato",
-          "costo": "—",
-          "distanza": "~30 km da Pico Areeiro",
-          "lat": 32.7167,
-          "lng": -16.7683,
-          "descrizione": "Ultima notte a Machico prima di spostarsi verso la costa nord."
+          "lat": 32.716,
+          "lng": -16.768,
+          "desc_breve": "Cena prenotata alle 21:00. Ristorante tradizionale madeirense.",
+          "desc_lunga": "Cena prenotata alle 21:00 all'Adega do Pomar, ristorante tradizionale madeirense.\nSpecialità:\n• Espetada: spiedone di carne di manzo marinata, cotto sul fuoco di legna di alloro — piatto tipico di Madeira\n• Lapas: patelle grigliate con burro, aglio e limone — antipasto classico dell'isola\n• Bolo do caco: pane tradizionale di Madeira cotto su pietra basaltica, servito con burro all'aglio\n• Poncha: distillato di canna da zucchero con succo di agrumi — il cocktail tipico dell'isola"
         }
       ]
     },
@@ -127,48 +136,64 @@
       "colore": "#BA7517",
       "tappe": [
         {
+          "nome": "Check-out alloggio – Machico",
+          "icona": "🏨",
+          "categoria": "Alloggio",
+          "stato": "—",
+          "costo": "—",
+          "distanza": "—",
+          "lat": 32.7167,
+          "lng": -16.7683,
+          "desc_breve": "Check-out dall'alloggio di Machico. Partenza verso la costa nord.",
+          "desc_lunga": "Check-out dall'alloggio di Machico. Giornata di trasferimento verso la costa nord con soste panoramiche e balneari lungo il percorso."
+        },
+        {
           "nome": "Miradouro de São Cristóvão",
           "icona": "👁",
           "categoria": "Panorama",
           "stato": "Gratuito",
           "costo": "—",
-          "distanza": "~5 km da Machico",
-          "lat": 32.7250,
-          "lng": -16.8016,
-          "descrizione": "Belvedere sulla costa nord con vista verso Seixal e le maestose scogliere basaltiche."
+          "distanza": "~35 km da Machico",
+          "lat": 32.794,
+          "lng": -16.944,
+          "desc_breve": "Uno dei belvedere più belli della costa nord, a Boaventura. Vista sulla valle e sull'Atlantico.",
+          "desc_lunga": "Situato nella freguesia di Boaventura, sulla costa nord di Madeira.\nVista panoramica sulla valle di Boaventura, i terrazzamenti agricoli verdi a picco sull'Atlantico.\nPresenza di un ristorante/bar con la stessa vista spettacolare.\n⚠️ Il parcheggio è privato del ristorante: consumare qualcosa è buona norma per usufruirne.\n💡 Vista verso est: ottimo per fotografie mattutine."
         },
         {
-          "nome": "Seixal Beach",
+          "nome": "Spiaggia di Seixal",
           "icona": "🏖",
           "categoria": "Spiaggia",
           "stato": "Gratuito",
           "costo": "—",
-          "distanza": "~35 km da Machico",
+          "distanza": "~15 km da São Cristóvão",
           "lat": 32.8077,
           "lng": -17.1083,
-          "descrizione": "Piccola spiaggia di ciottoli neri sulla costa nord, circondata da scogliere basaltiche.\nAcque cristalline e fresche (~20 °C).\nUna cascata naturale sfocia direttamente in mare: scenario unico."
+          "desc_breve": "Spiaggia di ciottoli neri con cascata naturale che sfocia in mare. Costa nord.",
+          "desc_lunga": "Spiaggia di ciottoli e sabbia scura vulcanica sulla costa nord, circondata da alte scogliere basaltiche.\nUna cascata naturale sfocia direttamente in mare — scenario unico e molto fotografato.\nAcque cristalline e fresche (~20 °C). Accesso tramite tunnel scavato nella roccia.\nUna delle spiagge più selvagge e suggestive di Madeira."
         },
         {
-          "nome": "Espaço Infinito Seixal",
+          "nome": "Espaço Infinito – Seixal",
           "icona": "🌊",
           "categoria": "Piscine naturali",
           "stato": "Ingresso modico",
           "costo": "~€8 (4 pers.)",
-          "distanza": "~1 km da Seixal Beach",
-          "lat": 32.8090,
-          "lng": -17.1100,
-          "descrizione": "Piscine naturali ricavate nella lava vulcanica a picco sul mare.\n⚠️ Con mare mosso possono essere chiuse — verificare le condizioni all'arrivo."
+          "distanza": "~1 km da Seixal",
+          "lat": 32.809,
+          "lng": -17.11,
+          "desc_breve": "Piscine naturali nella lava basaltica a picco sull'Atlantico.",
+          "desc_lunga": "Piscine naturali ricavate nella lava basaltica a picco sull'oceano Atlantico.\nAcqua di mare limpida e protetta dalle rocce. Scenario spettacolare con viste sull'oceano.\nServizi di base disponibili in loco.\n⚠️ Con mare agitato le piscine possono essere chiuse per sicurezza — verificare le condizioni all'arrivo."
         },
         {
-          "nome": "Hotel Santana in Nature B&B",
+          "nome": "Check-in alloggio – Santana",
           "icona": "🏨",
           "categoria": "Alloggio",
           "stato": "Pagato",
           "costo": "—",
-          "distanza": "~25 km da Seixal",
+          "distanza": "~20 km da Seixal",
           "lat": 32.7957,
           "lng": -16.8817,
-          "descrizione": "Check-in a Santana, famosa per le pittoresche casette tradizionali a tetto di paglia (Casas Típicas).\nZona nord-est dell'isola: più verde e umida. Clima notturno: ~18 °C."
+          "desc_breve": "Check-in a Santana, famosa per le Casas de Colmo tradizionali.",
+          "desc_lunga": "Santana è famosa per le pittoresche Casas de Colmo: casette tradizionali a pianta triangolare con tetto di paglia che scende fino a terra, simbolo iconico di Madeira.\nZona nord-est dell'isola: più verde, umida e fresca rispetto alla costa sud.\nClima notturno: ~18 °C. Paesaggio lussureggiante circostante."
         }
       ]
     },
@@ -177,7 +202,19 @@
       "colore": "#993556",
       "tappe": [
         {
-          "nome": "PR1 – Pico do Areeiro → Pico Ruivo",
+          "nome": "Check-out alloggio – Santana",
+          "icona": "🏨",
+          "categoria": "Alloggio",
+          "stato": "—",
+          "costo": "—",
+          "distanza": "—",
+          "lat": 32.7957,
+          "lng": -16.8817,
+          "desc_breve": "Check-out dall'alloggio di Santana. Partenza verso Pico do Areeiro per il PR1.",
+          "desc_lunga": "Check-out dall'alloggio di Santana. Giornata interamente dedicata al PR1, il trekking più iconico di Madeira.\nPartenza presto verso Pico do Areeiro (~20 km, ~30 min da Santana)."
+        },
+        {
+          "nome": "PR1 – Vereda do Areeiro (Pico do Areeiro → Pico Ruivo)",
           "icona": "🥾",
           "categoria": "Trekking",
           "stato": "Pagato",
@@ -185,29 +222,68 @@
           "distanza": "~20 km da Santana",
           "lat": 32.7351,
           "lng": -16.9229,
-          "descrizione": "🥾 TREKKING IMPEGNATIVO — il più iconico di Madeira.\nLunghezza: ~7,4 km · Dislivello: ~900 m · Durata: 4–5h\nQuota: da 1.818 m (Areeiro) a 1.862 m (Pico Ruivo).\nClima: 10–15 °C, vento forte, possibile nebbia.\n✅ Prenotato su SIMplifica (€10,50/pp).\n\n⚠️ SENSO UNICO OBBLIGATORIO: al termine scendere ad Achada do Teixeira (~5 km, ~1h) e prendere il transfer per tornare all'auto.\n📦 Portare: giacca impermeabile, torcia per i tunnel, acqua abbondante."
+          "desc_breve": "🥾 Trekking impegnativo. Il più iconico di Madeira. 7,4 km, 4–5h, senso unico. Navetta al ritorno.",
+          "desc_lunga": "🥾 TREKKING IMPEGNATIVO — il sentiero più iconico di Madeira.\nLunghezza: ~7,4 km (solo andata, senso unico obbligatorio dal 2026).\nDislivello cumulato: ~900 m · Durata: 4–5h · Quota: 1.818 m (Areeiro) → 1.862 m (Pico Ruivo).\nClima in quota: 10–15 °C, vento forte, nebbia frequente anche in estate.\n✅ Prenotato su SIMplifica (€10,50/pp).\n⚠️ SENSO UNICO OBBLIGATORIO: al termine scendere a piedi ad Achada do Teixeira (~5 km, ~1h) e prendere la navetta prenotata per tornare all'auto a Pico do Areeiro.\n📦 Portare: giacca impermeabile, torcia per i tunnel, almeno 2L di acqua, snack energetici.\nIl percorso attraversa tunnel scavati nella roccia, ponti sospesi e crinali esposti."
         },
         {
-          "nome": "Miradouros verso Porto Moniz",
-          "icona": "🚗",
-          "categoria": "Panorama / Auto",
+          "nome": "Miradouro do Ninho da Manta  ⬡ tappa del PR1",
+          "icona": "👁",
+          "categoria": "Panorama (interno PR1)",
           "stato": "Gratuito",
           "costo": "—",
-          "distanza": "Lungo il percorso",
-          "lat": 32.7860,
-          "lng": -16.9640,
-          "descrizione": "Soste panoramiche in auto verso Porto Moniz. Da valutare in base all'energia residua dopo il PR1."
+          "distanza": "~5 min a piedi dall'inizio del PR1",
+          "lat": 32.737,
+          "lng": -16.925,
+          "desc_breve": "📍 Interno al PR1. Belvedere sul massiccio centrale, raggiunto durante il trekking.",
+          "desc_lunga": "📍 TAPPA INTERNA AL PR1 — si raggiunge camminando, non è accessibile in auto.\nSituato a pochi minuti dall'inizio del sentiero PR1, vicino alla Pousada do Pico do Areeiro.\nVista spettacolare sulla cordilheira central madeirense e sulla valle della Fajã da Nogueira.\nIl nome deriva dalla poiana (Buteo buteo), chiamata 'manta' a Madeira, che qui nidificava.\nÈ anche il punto panoramico più accessibile per chi non vuole fare l'intero PR1."
         },
         {
-          "nome": "The Jolie Porto Moniz",
+          "nome": "Escaleiras do Areeiro – Stairway to Heaven  ⬡ tappa del PR1",
+          "icona": "🪜",
+          "categoria": "Panorama (interno PR1)",
+          "stato": "Gratuito",
+          "costo": "—",
+          "distanza": "Sul percorso PR1",
+          "lat": 32.736,
+          "lng": -16.924,
+          "desc_breve": "📍 Interno al PR1. Scalinata panoramica sul crinale, soprannominata 'Stairway to Heaven'.",
+          "desc_lunga": "📍 TAPPA INTERNA AL PR1 — si percorre durante il trekking, non raggiungibile in auto.\nFamosa scalinata panoramica sul crinale tra Pico do Areeiro e Pico Ruivo.\nIl soprannome turistico 'Stairway to Heaven' nasce dalle viste mozzafiato sul vuoto su entrambi i versanti dell'isola.\nDurante la salita/discesa si ha una delle prospettive più spettacolari dell'intero percorso PR1."
+        },
+        {
+          "nome": "Pico Ruivo",
+          "icona": "🏔",
+          "categoria": "Panorama",
+          "stato": "Gratuito",
+          "costo": "—",
+          "distanza": "Arrivo del PR1",
+          "lat": 32.7494,
+          "lng": -16.9294,
+          "desc_breve": "Il punto più alto di Madeira: 1.862 m slm. Meta finale del PR1.",
+          "desc_lunga": "Il Pico Ruivo è la vetta più alta di Madeira con i suoi 1.862 m slm.\nVista a 360° sull'intera isola e sull'oceano Atlantico — spesso ci si trova sopra le nuvole.\nPresenza di una casa cantoniera (Abrigo do Pico Ruivo) con possibilità di ristoro.\nDa qui scendere a piedi verso Achada do Teixeira (~5 km, ~1h) per prendere la navetta di ritorno."
+        },
+        {
+          "nome": "Miradouro do Juncal",
+          "icona": "👁",
+          "categoria": "Panorama",
+          "stato": "Gratuito",
+          "costo": "—",
+          "distanza": "~5 km da Achada do Teixeira",
+          "lat": 32.76,
+          "lng": -16.91,
+          "desc_breve": "Belvedere sulla costa nord verso São Jorge. Tappa lungo la strada per Porto Moniz.",
+          "desc_lunga": "Punto panoramico sulla costa nord con vista verso la freguesia di São Jorge e il mare.\nSosta breve (~15 min) lungo la strada da Achada do Teixeira verso Porto Moniz.\nBuona opportunità fotografica prima del check-in."
+        },
+        {
+          "nome": "Check-in alloggio – Porto Moniz",
           "icona": "🏨",
           "categoria": "Alloggio",
           "stato": "Pagato (c.gratuita)",
           "costo": "—",
-          "distanza": "~40 km da Achada do Teixeira",
+          "distanza": "~35 km da Achada do Teixeira",
           "lat": 32.8697,
           "lng": -17.1656,
-          "descrizione": "Check-in a Porto Moniz, all'estremo nord-ovest dell'isola.\nHotel con cancellazione gratuita."
+          "desc_breve": "Check-in a Porto Moniz, estremo nord-ovest. Alloggio con cancellazione gratuita.",
+          "desc_lunga": "Porto Moniz si trova all'estremo nord-ovest di Madeira, famosa per le sue piscine naturali di lava.\nAlloggio con cancellazione gratuita — verificare eventuale scadenza per la cancellazione.\nDopo l'impegnativo PR1, serata di riposo consigliata.\nPorto Moniz offre ottimi ristoranti di pesce fresco sul lungomare."
         }
       ]
     },
@@ -216,7 +292,7 @@
       "colore": "#0F6E56",
       "tappe": [
         {
-          "nome": "Fanal Forest",
+          "nome": "Floresta del Fanal",
           "icona": "🌲",
           "categoria": "Natura / Trekking",
           "stato": "Da decidere",
@@ -224,7 +300,8 @@
           "distanza": "~15 km da Porto Moniz",
           "lat": 32.8175,
           "lng": -17.1011,
-          "descrizione": "🌲 FORESTA LAURISILVA. Alberi di til e laurel millenari avvolti dalla nebbia.\nQuota: 1.000–1.420 m slm · Clima: fresco e umido, giacca obbligatoria.\n\n📋 DUE OPZIONI:\n(1) Passeggiata libera: gratuita, ~1–2h, nessuna prenotazione\n(2) PR13 completo (10,8 km, 3,5–4,5h): €4,50/pp, prenotare su SIMplifica\n\n💡 Consigliato arrivare all'alba per la nebbia più scenografica."
+          "desc_breve": "🌲 Foresta laurisilva fiabesca con alberi millenari avvolti dalla nebbia. Quota ~1.200 m.",
+          "desc_lunga": "🌲 FORESTA LAURISILVA — una delle atmosfere più uniche e fiabesche di Madeira.\nAlberi di til (Ocotea foetens) e laurel millenari avvolti dalla nebbia, muschio ovunque, atmosfera mistica.\nQuota: 1.000–1.420 m slm · Clima: fresco e umido, nebbia frequente anche in estate.\n📦 Giacca impermeabile obbligatoria — terreno spesso bagnato e scivoloso.\n\nDUE OPZIONI:\n(1) Passeggiata libera intorno al Posto Florestal do Fanal: gratuita, ~1–2h, nessuna prenotazione\n(2) PR13 – Vereda do Fanal (10,8 km, 3,5–4,5h, moderato): €4,50/pp, prenotare su SIMplifica\n\n💡 Consigliato arrivare all'alba: la nebbia è più scenografica e l'atmosfera più magica."
         },
         {
           "nome": "Terrabona Nature & Vineyards – ore 16:00",
@@ -233,20 +310,10 @@
           "stato": "Pagato",
           "costo": "—",
           "distanza": "~20 km da Fanal",
-          "lat": 32.7920,
-          "lng": -17.0500,
-          "descrizione": "Visita pomeridiana alle vigne di Terrabona. ✅ Prenotato (inizio ore 16:00).\nVini liquorosi di Madeira: Malmsey, Verdelho, Sercial, Bual.\n⚠️ Non guidare dopo la degustazione."
-        },
-        {
-          "nome": "The Jolie Porto Moniz",
-          "icona": "🏨",
-          "categoria": "Alloggio",
-          "stato": "Pagato (c.gratuita)",
-          "costo": "—",
-          "distanza": "~30 km da Terrabona",
-          "lat": 32.8697,
-          "lng": -17.1656,
-          "descrizione": "Rientro in hotel a Porto Moniz."
+          "lat": 32.792,
+          "lng": -17.05,
+          "desc_breve": "Visita alle vigne Terrabona. ✅ Prenotato ore 16:00. Vini liquorosi di Madeira.",
+          "desc_lunga": "Visita pomeridiana alla tenuta Terrabona Nature & Vineyards. ✅ Prenotato (inizio ore 16:00).\nMadeira è famosa per i suoi vini liquorosi DOC, unici al mondo grazie al processo di 'estufagem': riscaldamento controllato che conferisce ai vini la caratteristica longevità (possono invecchiare per decenni o secoli).\nQuattro tipologie principali in base alla dolcezza:\n• Sercial: secco e acidulo\n• Verdelho: semi-secco\n• Bual: semi-dolce\n• Malmsey: dolce e rotondo\nVigneti terrazzati con vista sull'oceano Atlantico.\n⚠️ Non guidare dopo la degustazione — designare un guidatore o attendere."
         }
       ]
     },
@@ -254,6 +321,18 @@
       "data": "19 ago",
       "colore": "#185FA5",
       "tappe": [
+        {
+          "nome": "Check-out alloggio – Porto Moniz",
+          "icona": "🏨",
+          "categoria": "Alloggio",
+          "stato": "—",
+          "costo": "—",
+          "distanza": "—",
+          "lat": 32.8697,
+          "lng": -17.1656,
+          "desc_breve": "Check-out dall'alloggio di Porto Moniz. Trasferimento verso Calheta.",
+          "desc_lunga": "Check-out dall'alloggio di Porto Moniz. Giornata di trasferimento lungo la costa nord-ovest verso Calheta, con soste a Ribeira da Janela, piscine naturali e Achadas da Cruz."
+        },
         {
           "nome": "Ribeira da Janela",
           "icona": "🗿",
@@ -263,51 +342,56 @@
           "distanza": "~8 km da Porto Moniz",
           "lat": 32.8449,
           "lng": -17.1536,
-          "descrizione": "Foce del fiume con monoliti basaltici emergenti dall'oceano. Breve sosta panoramica (~20 min)."
+          "desc_breve": "Foce del fiume con monoliti basaltici emergenti dall'oceano. Sosta ~20 min.",
+          "desc_lunga": "La foce del fiume Ribeira da Janela è caratterizzata da suggestivi monoliti basaltici (islets) che emergono dall'oceano Atlantico.\nIl nome 'Janela' (finestra) deriva da un foro naturale che si trovava sul più grande dei monoliti, oggi eroso dal mare.\nBreve sosta panoramica (~20 min). Ottima per fotografie dalla strada o dal belvedere."
         },
         {
-          "nome": "Porto Moniz Natural Swimming Pools",
+          "nome": "Piscine Naturali di Porto Moniz",
           "icona": "🌊",
           "categoria": "Piscine naturali",
           "stato": "~€2/pp",
           "costo": "~€8 (4 pers.)",
-          "distanza": "~2 km",
+          "distanza": "~2 km da Ribeira da Janela",
           "lat": 32.8697,
           "lng": -17.1656,
-          "descrizione": "Le piscine naturali di lava più famose di Madeira.\nServizi, docce, bar. Acqua di mare limpida protetta dalle rocce laviche."
+          "desc_breve": "Le piscine naturali di lava più famose di Madeira. Ingresso ~€2/pp.",
+          "desc_lunga": "Le piscine naturali di lava vulcanica di Porto Moniz sono tra le più famose di Madeira.\nFormate da secoli di erosione dell'oceano sulla roccia basaltica.\nAcqua di mare limpida e protetta dalle rocce. Servizi: docce, spogliatoi, bar in loco.\nGestite dal Comune di Porto Moniz: ingresso ~€2/pp.\nAdatte anche per famiglie con bambini grazie all'acqua calma e protetta."
         },
         {
-          "nome": "Achadas da Cruz – Teleferica",
+          "nome": "Achadas da Cruz – Teleférico",
           "icona": "🚡",
           "categoria": "Teleferica",
           "stato": "~€3/pp",
           "costo": "~€12 (4 pers.)",
-          "distanza": "~8 km",
-          "lat": 32.8500,
-          "lng": -17.1900,
-          "descrizione": "Teleferica panoramica a picco verso la costa: 450 m di dislivello.\n⚠️ Orari limitati — verificare in loco prima di arrivare."
+          "distanza": "~8 km da Porto Moniz",
+          "lat": 32.85,
+          "lng": -17.19,
+          "desc_breve": "Teleferica panoramica: 450 m di dislivello in pochi minuti. Viste spettacolari.",
+          "desc_lunga": "Il Teleférico das Achadas da Cruz è una piccola funivia che scende a picco verso la costa: ~450 m di dislivello percorsi in pochi minuti.\nViste spettacolari sulle scogliere basaltiche e sull'Atlantico durante la discesa.\nIn basso: piccola spiaggia di difficile accesso altrimenti.\n⚠️ Orari limitati e stagionali — verificare la disponibilità in loco prima di arrivare.\nCosto approssimativo: ~€3/pp A/R."
         },
         {
-          "nome": "Calheta Beach",
+          "nome": "Spiaggia di Calheta",
           "icona": "🏖",
           "categoria": "Spiaggia",
           "stato": "Gratuito",
           "costo": "—",
           "distanza": "~50 km da Achadas da Cruz",
           "lat": 32.7178,
-          "lng": -17.1710,
-          "descrizione": "Spiaggia artificiale di sabbia dorada, una delle poche dell'isola. Clima: ~26 °C, soleggiato."
+          "lng": -17.171,
+          "desc_breve": "Spiaggia artificiale di sabbia dorata. Una delle poche dell'isola. Costa sud-ovest.",
+          "desc_lunga": "La spiaggia di Calheta è una delle poche spiagge di sabbia dorata di Madeira — la sabbia è stata importata dal Marocco per creare un arenile attrezzato.\nSituata sulla costa sud-ovest, più secca e soleggiata rispetto al nord.\nClima: ~26 °C, soleggiato. Servizi completi: docce, bar, noleggio lettini.\nOttima per rilassarsi dopo le attività mattutine prima del check-in."
         },
         {
-          "nome": "Hotel TarmarPlace – Calheta",
+          "nome": "Check-in alloggio – Calheta",
           "icona": "🏨",
           "categoria": "Alloggio",
           "stato": "Pagato",
           "costo": "—",
-          "distanza": "~2 km da Calheta Beach",
-          "lat": 32.7200,
-          "lng": -17.1730,
-          "descrizione": "Check-in a Calheta. Base strategica per il giorno delle levadas."
+          "distanza": "~2 km dalla spiaggia",
+          "lat": 32.72,
+          "lng": -17.173,
+          "desc_breve": "Check-in a Calheta. Base per il giorno del trekking PR6.",
+          "desc_lunga": "Check-in a Calheta, sulla costa sud-ovest di Madeira.\nBase strategica per il giorno successivo di trekking alla Levada das 25 Fontes (PR6).\nCalheta è una zona tranquilla, meno turistica rispetto a Funchal, con buoni ristoranti locali."
         }
       ]
     },
@@ -324,29 +408,8 @@
           "distanza": "~25 km da Calheta",
           "lat": 32.7539,
           "lng": -17.1089,
-          "descrizione": "🥾 TREKKING FACILE/MODERATO.\nLunghezza: 9 km A/R · Dislivello: ~400 m · Durata: 3–4h\nQuota: 964–1.288 m slm · Clima: fresco e umido nella Laurisilva.\n⚠️ DA PRENOTARE su SIMplifica (€4,50/pp).\n💡 Partire prima delle 9:00.\n🔦 Portare torcia per tunnel (~800 m).\n👟 Scarpe waterproof consigliate."
-        },
-        {
-          "nome": "PR6.1 – Levada do Risco",
-          "icona": "🥾",
-          "categoria": "Trekking",
-          "stato": "⚠️ DA PRENOTARE",
-          "costo": "€18 (4 pers.)",
-          "distanza": "Stesso parcheggio PR6 (Rabaçal)",
-          "lat": 32.7550,
-          "lng": -17.1095,
-          "descrizione": "🥾 TREKKING FACILE — da combinare con PR6 nella stessa giornata.\nLunghezza: 2 km A/R · Durata: ~1h.\nPorta alla Cascata do Risco, una delle più alte di Madeira.\n⚠️ DA PRENOTARE su SIMplifica (€4,50/pp — prenotazione separata da PR6)."
-        },
-        {
-          "nome": "Hotel TarmarPlace – Calheta",
-          "icona": "🏨",
-          "categoria": "Alloggio",
-          "stato": "Pagato",
-          "costo": "—",
-          "distanza": "~25 km da Rabaçal",
-          "lat": 32.7200,
-          "lng": -17.1730,
-          "descrizione": "Rientro in hotel a Calheta dopo le levadas."
+          "desc_breve": "🥾 Trekking moderato. Levada nella Laurisilva fino a laguna con 25 sorgenti. 8,6 km A/R, ~3h.",
+          "desc_lunga": "🥾 TREKKING MODERATO — uno dei sentieri più famosi e apprezzati di Madeira.\nLunghezza: 8,6 km A/R (4,3 km per lato) · Dislivello: ~300 m · Durata: ~3h · Quota: 964–1.288 m slm.\nIl sentiero segue la levada attraverso la foresta Laurisilva fino a una laguna alimentata da 25 sorgenti naturali con cascata spettacolare.\nClima: fresco e umido nella foresta — portare giacca leggera.\n⚠️ DA PRENOTARE URGENTEMENTE su SIMplifica (€4,50/pp).\n💡 Partire prima delle 9:00 per evitare i bus turistici — in agosto i posti mattutini si esauriscono giorni prima.\n🔦 Portare torcia per il tunnel (~800 m, buio totale).\n👟 Scarpe waterproof consigliate — terreno spesso bagnato e scivoloso.\n⚠️ Multa fino a €50 per chi viene trovato senza prenotazione valida."
         }
       ]
     },
@@ -355,29 +418,31 @@
       "colore": "#8B5E3C",
       "tappe": [
         {
+          "nome": "Check-out alloggio – Calheta",
+          "icona": "🏨",
+          "categoria": "Alloggio",
+          "stato": "—",
+          "costo": "—",
+          "distanza": "—",
+          "lat": 32.72,
+          "lng": -17.173,
+          "desc_breve": "Check-out dall'alloggio di Calheta. Trasferimento verso Funchal.",
+          "desc_lunga": "Check-out dall'alloggio di Calheta. Ultima giornata di trasferimento verso Funchal con sosta alla Cascata dos Anjos lungo la strada."
+        },
+        {
           "nome": "Cascata dos Anjos",
           "icona": "💧",
           "categoria": "Natura / Cascata",
           "stato": "Gratuito",
           "costo": "—",
           "distanza": "~40 km da Calheta",
-          "lat": 32.7820,
-          "lng": -17.0640,
-          "descrizione": "Cascata naturale lungo la strada verso Funchal. Breve sosta panoramica (~30 min)."
+          "lat": 32.782,
+          "lng": -17.064,
+          "desc_breve": "Cascata naturale raggiungibile dalla strada. Sosta breve ~15–30 min.",
+          "desc_lunga": "La Cascata dos Anjos è una cascata naturale facilmente raggiungibile con una breve deviazione dalla strada principale.\nL'acqua scende direttamente sulla roccia basaltica circondato da vegetazione lussureggiante.\nSosta panoramica breve (~15–30 min). Ottima per fotografie prima del trasferimento finale verso Funchal.\nAccesso semplice, parcheggio nelle vicinanze."
         },
         {
-          "nome": "??? – Tappa da definire",
-          "icona": "❓",
-          "categoria": "Da definire",
-          "stato": "Da pianificare",
-          "costo": "—",
-          "distanza": "—",
-          "lat": 32.7490,
-          "lng": -17.0200,
-          "descrizione": "⚠️ TAPPA ANCORA DA PIANIFICARE.\nOpzioni consigliate:\n• Câmara de Lobos: pittoresco villaggio di pescatori a 10 min da Funchal\n• Cabo Girão: promontorio 580 m, skywalk in vetro\n• Jardim Botânico di Funchal\n• Mercado dos Lavradores"
-        },
-        {
-          "nome": "Hotel Atlântico Azul – Funchal",
+          "nome": "Check-in alloggio – Funchal",
           "icona": "🏨",
           "categoria": "Alloggio",
           "stato": "Pagato",
@@ -385,7 +450,8 @@
           "distanza": "~30 km da Cascata dos Anjos",
           "lat": 32.6476,
           "lng": -16.9141,
-          "descrizione": "Check-in a Funchal. Clima: ~25 °C.\n🌆 Idee per la serata:\n• Passeggiata sul lungomare (Avenida do Mar)\n• Cena con specialità locali: espada, lapas, poncha\nÈ l'ultima serata del viaggio — da godersi!"
+          "desc_breve": "Check-in a Funchal, la capitale di Madeira. Ultima serata del viaggio.",
+          "desc_lunga": "Check-in a Funchal, la capitale di Madeira. Clima: ~25 °C, soleggiato.\nÈ l'ultima serata del viaggio — da godersi!\n🌆 Idee per la serata:\n• Passeggiata sul lungomare Avenida do Mar con vista sul porto\n• Visita al centro storico e alla Sé Catedral (XV secolo)\n• Cena con specialità locali: espada com banana (pesce spada con banana fresca), lapas, poncha\n• Mercado dos Lavradores: mercato storico con fiori tropicali, frutta esotica e pesce (aperto fino alle 18–19)\n• Teleférico do Funchal verso Monte per la vista notturna sulla città (~€16 A/R)"
         }
       ]
     },
@@ -393,6 +459,18 @@
       "data": "22 ago",
       "colore": "#3C3489",
       "tappe": [
+        {
+          "nome": "Check-out alloggio – Funchal",
+          "icona": "🏨",
+          "categoria": "Alloggio",
+          "stato": "—",
+          "costo": "—",
+          "distanza": "—",
+          "lat": 32.6476,
+          "lng": -16.9141,
+          "desc_breve": "Check-out dall'alloggio di Funchal.",
+          "desc_lunga": "Check-out dall'alloggio di Funchal. Ultima mattina a Madeira prima della partenza.\nConsigliato effettuare il check-out presto per avere tempo per Cabo Girão e l'aeroporto."
+        },
         {
           "nome": "Cabo Girão – Skywalk",
           "icona": "🏔",
@@ -402,10 +480,11 @@
           "distanza": "~18 km da Funchal",
           "lat": 32.6487,
           "lng": -17.0459,
-          "descrizione": "Uno dei promontori più alti d'Europa: 580 m a picco sul mare.\nSkywalk in vetro trasparente con vista sulla costa sud fino a Funchal.\n⚠️ Non adatto a chi soffre di vertigini."
+          "desc_breve": "Uno dei promontori più alti d'Europa: 580 m. Skywalk in vetro a picco sul mare.",
+          "desc_lunga": "Con i suoi 580 m sul livello del mare, Cabo Girão è uno dei promontori più alti d'Europa.\nSkywalk: passerella in vetro trasparente a picco sull'oceano — si cammina letteralmente sul vuoto con vista sul mare sottostante e sulla costa sud fino a Funchal.\nDurata visita: ~1h. Parcheggio gratuito. Ingresso allo skywalk ~€2/pp.\n⚠️ Non adatto a chi soffre di vertigini.\nSulla strada di ritorno verso Funchal si attraversa la zona vinicola di Câmara de Lobos."
         },
         {
-          "nome": "✈ Partenza – Aeroporto Funchal",
+          "nome": "Partenza – Aeroporto Cristiano Ronaldo",
           "icona": "✈",
           "categoria": "Volo",
           "stato": "Pagato",
@@ -413,7 +492,8 @@
           "distanza": "~18 km da Cabo Girão",
           "lat": 32.6941,
           "lng": -16.7784,
-          "descrizione": "Rientro all'aeroporto Cristiano Ronaldo di Funchal.\n📋 Checklist partenza:\n• Riconsegnare l'auto a noleggio\n• Verificare orario esatto del volo\n• Presentarsi in aeroporto con adeguato anticipo"
+          "desc_breve": "Partenza dall'Aeroporto Cristiano Ronaldo. Distanza da Cabo Girão: ~18 km (~25 min).",
+          "desc_lunga": "Partenza dall'Aeroporto Internacional da Madeira – Cristiano Ronaldo.\nDistanza da Cabo Girão: ~18 km (~25 min).\n📋 Checklist partenza:\n• Riconsegnare l'auto a noleggio in aeroporto (verificare orario di riconsegna con il noleggiatore)\n• Verificare orario esatto del volo e terminal di partenza\n• Presentarsi al check-in con almeno 2h di anticipo\n• Ricordare le regole sui liquidi nel bagaglio a mano (100ml per contenitore)"
         }
       ]
     }
