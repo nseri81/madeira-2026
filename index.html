@@ -101,7 +101,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v1.4</span>
+      <span id="version-badge">v1.5</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -361,7 +361,21 @@ function buildUI(data){
   GIORNI.forEach((day,di)=>{
     const tappe=day.tappe||[];
     const coords=tappe.filter(t=>t.lat).map(t=>[t.lat,t.lng]);
-    if(coords.length>1) L.polyline(coords,{color:day.colore,weight:2,opacity:.45,dashArray:"7,5"}).addTo(map);
+    // Se il giorno ha una sola tappa, aggiungi punti dai giorni adiacenti per disegnare la linea
+    let polyCoords=[...coords];
+    if(polyCoords.length<=1){
+      if(di>0){
+        const prevDay=GIORNI[di-1].tappe;
+        const prevCoord=prevDay.filter(t=>t.lat).slice(-1)[0];
+        if(prevCoord) polyCoords.unshift([prevCoord.lat,prevCoord.lng]);
+      }
+      if(di<GIORNI.length-1){
+        const nextDay=GIORNI[di+1].tappe;
+        const nextCoord=nextDay.filter(t=>t.lat)[0];
+        if(nextCoord) polyCoords.push([nextCoord.lat,nextCoord.lng]);
+      }
+    }
+    if(polyCoords.length>1) L.polyline(polyCoords,{color:day.colore,weight:2,opacity:.45,dashArray:"7,5"}).addTo(map);
 
     tappe.forEach((stop,si)=>{
       if(!stop.lat) return;

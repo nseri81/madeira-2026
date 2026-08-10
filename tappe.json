@@ -364,18 +364,6 @@
       "colore": "#A32D2D",
       "tappe": [
         {
-          "nome": "Check-out alloggio – Calheta",
-          "icona": "🏨",
-          "categoria": "Alloggio",
-          "stato": "—",
-          "costo": "—",
-          "distanza": "—",
-          "lat": 32.7331781,
-          "lng": -17.1928035,
-          "desc_breve": "Check-out dall'alloggio di Calheta. Partenza verso Rabaçal per le levadas.",
-          "desc_lunga": "Check-out dall'alloggio di Calheta. Giornata dedicata al trekking della Levada das 25 Fontes (PR6) a Rabaçal."
-        },
-        {
           "nome": "PR6 – Levada das 25 Fontes",
           "icona": "🥾",
           "categoria": "Trekking",
@@ -386,18 +374,6 @@
           "lng": -17.1343465,
           "desc_breve": "🥾 Trekking moderato. Levada nella Laurisilva fino a laguna con 25 sorgenti. 8,6 km A/R, ~3h.",
           "desc_lunga": "🥾 TREKKING MODERATO — uno dei sentieri più famosi e apprezzati di Madeira.\nLunghezza: 8,6 km A/R (4,3 km per lato) · Dislivello: ~300 m · Durata: ~3h · Quota: 964–1.288 m slm.\nIl sentiero segue la levada attraverso la foresta Laurisilva fino a una laguna alimentata da 25 sorgenti naturali con cascata spettacolare.\nClima: fresco e umido nella foresta — portare giacca leggera.\n⚠️ DA PRENOTARE URGENTEMENTE su SIMplifica (€4,50/pp).\n💡 Partire prima delle 9:00 per evitare i bus turistici — in agosto i posti mattutini si esauriscono giorni prima.\n🔦 Portare torcia per il tunnel (~800 m, buio totale).\n👟 Scarpe waterproof consigliate — terreno spesso bagnato e scivoloso.\n⚠️ Multa fino a €50 per chi viene trovato senza prenotazione valida."
-        },
-        {
-          "nome": "Check-in alloggio – Calheta",
-          "icona": "🏨",
-          "categoria": "Alloggio",
-          "stato": "Pagato",
-          "costo": "—",
-          "distanza": "~25 km da Rabaçal",
-          "lat": 32.7331781,
-          "lng": -17.1928035,
-          "desc_breve": "Rientro in hotel a Calheta dopo le levadas.",
-          "desc_lunga": "Rientro in hotel a Calheta dopo il trekking della Levada das 25 Fontes."
         }
       ]
     },
