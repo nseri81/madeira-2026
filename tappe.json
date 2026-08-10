@@ -28,8 +28,8 @@
           "stato": "Pagato",
           "costo": "—",
           "distanza": "~22 km dall'aeroporto",
-          "lat": 32.7167,
-          "lng": -16.77,
+          "lat": 32.725083,
+          "lng": -16.774398,
           "desc_breve": "Check-in a Machico, uno dei borghi più antichi dell'isola.",
           "desc_lunga": "Machico è considerata la prima località dove i navigatori portoghesi sbarcarono a Madeira nel 1419.\nBorgo affacciato su una delle poche spiagge di sabbia naturale dell'isola.\nCentro storico con chiesa manuelina e fortezze. Clima costiero: ~24 °C."
         }
@@ -46,8 +46,8 @@
           "stato": "Gratuito",
           "costo": "—",
           "distanza": "—",
-          "lat": 32.7155,
-          "lng": -16.7697,
+          "lat": 32.7188487,
+          "lng": -16.7619705,
           "desc_breve": "Spiaggia di sabbia scura vulcanica nel centro di Machico. Clima ~24 °C.",
           "desc_lunga": "Una delle poche spiagge di sabbia naturale di Madeira — la sabbia scura è di origine vulcanica.\nDotata di servizi (docce, bar). Ottima per una mattinata di relax prima delle attività serali.\nMare generalmente calmo nella baia protetta."
         },
@@ -58,8 +58,8 @@
           "stato": "Gratuito",
           "costo": "—",
           "distanza": "~22 km da Machico",
-          "lat": 32.6636,
-          "lng": -16.8956,
+          "lat": 32.668029,
+          "lng": -16.897256,
           "desc_breve": "La festa religiosa più importante di Madeira: 14–15 agosto a Monte, sopra Funchal.",
           "desc_lunga": "La Festa de Nossa Senhora do Monte si svolge il 14 e 15 agosto nel quartiere di Monte, sulla collina sopra Funchal.\nProcessioni religiose, musica tradizionale, bancarelle con espetada, bolo do caco e poncha.\nLa chiesa di Nossa Senhora do Monte, del XVIII secolo, è il cuore della festa ed è decorata con fiori freschi.\n🚡 Funivia speciale: €11 A/R (adulti), servizio 18:00–01:00.\n🚌 Bus speciale Horários do Funchal: €1,80/corsa, servizio 18:00–04:00.\n⚠️ Monte dista ~50 km da Ponta de São Lourenço — organizzare bene i tempi se si fa PR8 il giorno stesso."
         }
@@ -88,8 +88,8 @@
           "stato": "Gratuito",
           "costo": "—",
           "distanza": "~3 km da São Lourenço",
-          "lat": 32.7449,
-          "lng": -16.6867,
+          "lat": 32.75068,
+          "lng": -16.7180917,
           "desc_breve": "Belvedere naturale sulla punta estrema orientale di Madeira.",
           "desc_lunga": "Punto panoramico naturale vicino alla Ponta de São Lourenço.\nVista sull'oceano Atlantico, sulle scogliere vulcaniche e sulle piccole isole offshore (Ilhéu da Cevada, Ilhéu do Farol).\nNon attrezzato — semplice sosta su roccia. Ottimo per fotografie."
         },
@@ -124,8 +124,8 @@
           "stato": "Da pagare in loco",
           "costo": "—",
           "distanza": "Rientro verso Machico",
-          "lat": 32.7167,
-          "lng": -16.77,
+          "lat": 32.725083,
+          "lng": -16.774398,
           "desc_breve": "Cena prenotata alle 21:00. Ristorante tradizionale madeirense.",
           "desc_lunga": "Cena prenotata alle 21:00 all'Adega do Pomar, ristorante tradizionale madeirense.\nSpecialità:\n• Espetada: spiedone di carne di manzo marinata, cotto sul fuoco di legna di alloro — piatto tipico di Madeira\n• Lapas: patelle grigliate con burro, aglio e limone — antipasto classico dell'isola\n• Bolo do caco: pane tradizionale di Madeira cotto su pietra basaltica, servito con burro all'aglio\n• Poncha: distillato di canna da zucchero con succo di agrumi — il cocktail tipico dell'isola"
         }
@@ -142,8 +142,8 @@
           "stato": "—",
           "costo": "—",
           "distanza": "—",
-          "lat": 32.7167,
-          "lng": -16.77,
+          "lat": 32.725083,
+          "lng": -16.774398,
           "desc_breve": "Check-out dall'alloggio di Machico. Partenza verso la costa nord.",
           "desc_lunga": "Check-out dall'alloggio di Machico. Giornata di trasferimento verso la costa nord con soste panoramiche e balneari lungo il percorso."
         },
