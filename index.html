@@ -446,6 +446,7 @@ function buildUI(data){
 }
 
 // ── init ──────────────────────────────────────────────────────────────────────
+let mapFullscreen=false;
 window.addEventListener("load",()=>{
   map=L.map("map",{center:[32.76,-17.0],zoom:10});
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
@@ -476,7 +477,6 @@ window.addEventListener("load",()=>{
   document.getElementById("player-toggle").onclick=()=>{ playerOpen?closePlayer():openPlayer(); };
 
   // Fullscreen map toggle
-  let mapFullscreen=false;
   document.getElementById("btn-fullscreen").onclick=()=>{
     mapFullscreen=!mapFullscreen;
     document.body.classList.toggle("map-fullscreen", mapFullscreen);
