@@ -274,7 +274,8 @@ function closePlayer(){
 function centerInPanel(di,si){
   const el=document.getElementById("stop-"+di+"-"+si);
   if(!el) return;
-  const fixedH=521;
+  // Calcola altezza header dinamicamente (cambia quando il player è aperto)
+  const fixedH=document.getElementById("topbar-wrap").offsetHeight+480;
   const elRect=el.getBoundingClientRect();
   const elCenter=elRect.top+elRect.height/2;
   const visibleCenter=fixedH+(window.innerHeight-fixedH)/2;
