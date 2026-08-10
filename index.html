@@ -7,64 +7,80 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f5f3;color:#1a1a18}
-  #app{display:flex;flex-direction:column}
-  #topbar-wrap{position:fixed;top:0;left:0;width:100%;z-index:200}
-  .topbar{background:#1F3864;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
-  .topbar-title{font-size:15px;font-weight:700}
-  .topbar-sub{font-size:12px;opacity:.75;margin-left:auto}
-  #map-wrap{position:fixed;top:41px;left:0;width:100%;z-index:100}
-  #map{width:100%;height:480px}
-  #panel{margin-top:521px;background:#f5f5f3}
-  .day-section{border-bottom:1px solid #e0ddd6}
-  .day-header{display:flex;align-items:center;gap:10px;padding:11px 16px;background:#fff;cursor:pointer;user-select:none;border-bottom:1px solid #e0ddd6}
-  .day-header:hover{background:#fafaf8}
-  .day-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-  .day-label{font-size:14px;font-weight:600;color:#1a1a18}
-  .day-sub{font-size:12px;color:#888;margin-left:auto;margin-right:6px}
-  .day-chevron{font-size:14px;color:#aaa;transition:transform .2s}
-  .day-body{display:none}
-  .day-body.open{display:block}
-  .stop{display:flex;gap:12px;padding:11px 16px;border-bottom:1px solid #e8e5de;cursor:pointer;background:#fff;transition:background .12s}
-  .stop:last-child{border-bottom:none}
-  .stop:hover{background:#f0efe9}
-  .stop.active{background:#e8f0fc}
-  .stop-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-top:1px}
-  .stop-info{flex:1;min-width:0}
-  .stop-name{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.35}
-  .stop-desc{font-size:12px;color:#555;margin-top:3px;line-height:1.4}
-  .stop-meta{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
-  .badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;white-space:nowrap}
-  .badge-paid{background:#d4edda;color:#1a6632}
-  .badge-free{background:#f0efe9;color:#666;border:1px solid #e0ddd6}
-  .badge-topay{background:#fff3cd;color:#856404}
-  .badge-book{background:#fde8e8;color:#9b1c1c}
-  /* Modal */
-  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:flex-end;justify-content:center}
-  .modal-overlay.open{display:flex}
-  .modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:720px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 -4px 24px rgba(0,0,0,.15)}
-  .modal-header{padding:16px 20px 13px;border-bottom:1px solid #e0ddd6;display:flex;align-items:flex-start;gap:12px}
-  .modal-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-  .modal-titles{flex:1}
-  .modal-title{font-size:15px;font-weight:700;color:#1a1a18;line-height:1.3}
-  .modal-date{font-size:12px;color:#888;margin-top:3px}
-  .modal-close{background:#f0efe9;border:none;width:30px;height:30px;border-radius:50%;font-size:16px;color:#555;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-  .modal-close:hover{background:#e0ddd6}
-  .modal-body{padding:16px 20px;overflow-y:auto;flex:1}
-  .info-grid{display:grid;grid-template-columns:100px 1fr;gap:7px 10px;font-size:13px;margin-bottom:14px}
-  .info-label{color:#888;font-weight:500;padding-top:2px}
-  .info-value{color:#1a1a18;font-weight:600}
-  .desc-breve{font-size:13px;color:#333;line-height:1.7;border-top:1px solid #e0ddd6;padding-top:13px}
-  .desc-lunga{display:none;font-size:13px;color:#444;line-height:1.75;margin-top:12px;padding-top:12px;border-top:1px solid #e8e5de}
-  .desc-lunga.open{display:block}
-  .toggle-desc{display:inline-block;margin-top:8px;font-size:12px;color:#1F3864;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
-  .toggle-desc:hover{color:#2E75B6}
-  /* Leaflet popup */
-  .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
-  .leaflet-popup-content{margin:10px 14px;font-family:system-ui,sans-serif;font-size:13px}
-  .popup-title{font-weight:700;margin-bottom:2px;color:#1a1a18}
-  .popup-day{color:#888;font-size:11px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f5f3;color:#1a1a18}
+#app{display:flex;flex-direction:column}
+#topbar-wrap{position:fixed;top:0;left:0;width:100%;z-index:200}
+.topbar{background:#1F3864;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
+.topbar-title{font-size:15px;font-weight:700}
+.topbar-sub{font-size:12px;opacity:.75;margin-left:auto}
+#map-wrap{position:fixed;top:41px;left:0;width:100%;z-index:100}
+#map{width:100%;height:480px}
+
+/* ── PLAYER BAR ── */
+#player{position:fixed;bottom:0;left:0;width:100%;z-index:300;background:#1F3864;color:#fff;padding:10px 16px;display:none;flex-direction:column;gap:8px;box-shadow:0 -2px 12px rgba(0,0,0,.25)}
+#player.visible{display:flex}
+#player-stop{font-size:12px;font-weight:600;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+#player-day{font-size:10px;opacity:.6;text-align:center;margin-top:-4px}
+#player-controls{display:flex;align-items:center;justify-content:center;gap:12px}
+.p-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.p-btn:hover{background:rgba(255,255,255,.3)}
+.p-btn.primary{width:44px;height:44px;font-size:20px;background:rgba(255,255,255,.25)}
+.p-btn.primary:hover{background:rgba(255,255,255,.4)}
+#player-progress{display:flex;align-items:center;gap:8px}
+#progress-bar{flex:1;height:4px;background:rgba(255,255,255,.2);border-radius:2px;cursor:pointer;position:relative}
+#progress-fill{height:100%;background:#fff;border-radius:2px;transition:width .3s}
+#progress-label{font-size:10px;opacity:.6;white-space:nowrap;min-width:36px;text-align:right}
+#player-toggle{position:fixed;bottom:16px;right:16px;z-index:301;background:#1F3864;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:22px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;transition:background .15s}
+#player-toggle:hover{background:#2E75B6}
+
+#panel{margin-top:521px;background:#f5f5f3;padding-bottom:80px}
+.day-section{border-bottom:1px solid #e0ddd6}
+.day-header{display:flex;align-items:center;gap:10px;padding:11px 16px;background:#fff;cursor:pointer;user-select:none;border-bottom:1px solid #e0ddd6}
+.day-header:hover{background:#fafaf8}
+.day-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.day-label{font-size:14px;font-weight:600;color:#1a1a18}
+.day-sub{font-size:12px;color:#888;margin-left:auto;margin-right:6px}
+.day-chevron{font-size:14px;color:#aaa;transition:transform .2s}
+.day-body{display:none}
+.day-body.open{display:block}
+.stop{display:flex;gap:12px;padding:11px 16px;border-bottom:1px solid #e8e5de;cursor:pointer;background:#fff;transition:background .12s}
+.stop:last-child{border-bottom:none}
+.stop:hover{background:#f0efe9}
+.stop.active{background:#e8f0fc}
+.stop-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-top:1px}
+.stop-info{flex:1;min-width:0}
+.stop-name{font-size:13px;font-weight:600;color:#1a1a18;line-height:1.35}
+.stop-desc{font-size:12px;color:#555;margin-top:3px;line-height:1.4}
+.stop-meta{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;white-space:nowrap}
+.badge-paid{background:#d4edda;color:#1a6632}
+.badge-free{background:#f0efe9;color:#666;border:1px solid #e0ddd6}
+.badge-topay{background:#fff3cd;color:#856404}
+.badge-book{background:#fde8e8;color:#9b1c1c}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:720px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 -4px 24px rgba(0,0,0,.15)}
+.modal-header{padding:16px 20px 13px;border-bottom:1px solid #e0ddd6;display:flex;align-items:flex-start;gap:12px}
+.modal-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.modal-titles{flex:1}
+.modal-title{font-size:15px;font-weight:700;color:#1a1a18;line-height:1.3}
+.modal-date{font-size:12px;color:#888;margin-top:3px}
+.modal-close{background:#f0efe9;border:none;width:30px;height:30px;border-radius:50%;font-size:16px;color:#555;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.modal-close:hover{background:#e0ddd6}
+.modal-body{padding:16px 20px;overflow-y:auto;flex:1}
+.info-grid{display:grid;grid-template-columns:100px 1fr;gap:7px 10px;font-size:13px;margin-bottom:14px}
+.info-label{color:#888;font-weight:500;padding-top:2px}
+.info-value{color:#1a1a18;font-weight:600}
+.desc-breve{font-size:13px;color:#333;line-height:1.7;border-top:1px solid #e0ddd6;padding-top:13px}
+.desc-lunga{display:none;font-size:13px;color:#444;line-height:1.75;margin-top:12px;padding-top:12px;border-top:1px solid #e8e5de}
+.desc-lunga.open{display:block}
+.toggle-desc{display:inline-block;margin-top:8px;font-size:12px;color:#1F3864;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.toggle-desc:hover{color:#2E75B6}
+.leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.leaflet-popup-content{margin:10px 14px;font-family:system-ui,sans-serif;font-size:13px}
+.popup-title{font-weight:700;margin-bottom:2px;color:#1a1a18}
+.popup-day{color:#888;font-size:11px}
 </style>
 </head>
 <body>
@@ -80,6 +96,25 @@
   <div id="panel"><div style="padding:40px;text-align:center;color:#888;font-size:14px">Caricamento itinerario...</div></div>
 </div>
 
+<!-- Player bar -->
+<div id="player">
+  <div id="player-stop">—</div>
+  <div id="player-day">—</div>
+  <div id="player-controls">
+    <button class="p-btn" id="btn-prev" title="Tappa precedente">◀</button>
+    <button class="p-btn primary" id="btn-play" title="Play / Pausa">▶</button>
+    <button class="p-btn" id="btn-next" title="Tappa successiva">▶▶</button>
+  </div>
+  <div id="player-progress">
+    <div id="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
+    <div id="progress-label">0 / 0</div>
+  </div>
+</div>
+
+<!-- Bottone apri/chiudi player -->
+<button id="player-toggle" title="Avvia tour animato">🎬</button>
+
+<!-- Modal dettaglio -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div class="modal-header">
@@ -95,6 +130,7 @@
 </div>
 
 <script>
+// ── utilities ─────────────────────────────────────────────────────────────────
 function badgeClass(s){
   if(!s) return "badge-free";
   if(s.includes("DA PRENOTARE")||s.includes("Da pianificare")) return "badge-book";
@@ -102,7 +138,6 @@ function badgeClass(s){
   if(s==="Gratuito") return "badge-free";
   return "badge-topay";
 }
-
 function toLines(text){
   if(!text) return "";
   return text.split("\n").map(line=>{
@@ -112,14 +147,169 @@ function toLines(text){
   }).join("");
 }
 
-let map, markers={}, GIORNI=[];
+// ── state ─────────────────────────────────────────────────────────────────────
+let map, markers={}, GIORNI=[], allStops=[];
+let playerOpen=false, playerIdx=0, playing=false, playTimer=null;
+let transitionLine=null;
 
+// ── build flat stop list ───────────────────────────────────────────────────────
+function buildStopList(){
+  allStops=[];
+  GIORNI.forEach((day,di)=>{
+    day.tappe.forEach((stop,si)=>{
+      allStops.push({day, di, stop, si});
+    });
+  });
+}
+
+// ── map helpers ───────────────────────────────────────────────────────────────
+function focusStop(idx){
+  const {day,di,stop,si}=allStops[idx];
+  if(!stop.lat) return;
+  if(transitionLine){ map.removeLayer(transitionLine); transitionLine=null; }
+
+  // Animated transition line from previous stop
+  if(idx>0){
+    const prev=allStops[idx-1];
+    if(prev.stop.lat){
+      const from=[prev.stop.lat,prev.stop.lng];
+      const to=[stop.lat,stop.lng];
+      transitionLine=L.polyline([from,to],{
+        color:day.colore, weight:5, opacity:.9, dashArray:"1,0"
+      }).addTo(map);
+      // Animate dashOffset to create drawing effect
+      let offset=200;
+      transitionLine.setStyle({dashArray:"200",dashOffset:""+offset});
+      const anim=setInterval(()=>{
+        offset=Math.max(0,offset-8);
+        transitionLine.setStyle({dashOffset:""+offset});
+        if(offset===0){ clearInterval(anim); }
+      },16);
+    }
+  }
+
+  map.setView([stop.lat,stop.lng],13,{animate:true,duration:.8});
+  setTimeout(()=>{
+    const mapH=map.getSize().y;
+    map.panBy([0,-mapH/4],{animate:true});
+    markers[di+"-"+si]?.openPopup();
+  },400);
+
+  // Highlight list row
+  document.querySelectorAll(".stop").forEach(el=>el.classList.remove("active"));
+  const el=document.getElementById(`stop-${di}-${si}`);
+  if(el){
+    el.classList.add("active");
+    const db=el.closest(".day-body");
+    if(db&&!db.classList.contains("open")){
+      db.classList.add("open");
+      document.getElementById(`chev-${di}`).style.transform="rotate(180deg)";
+    }
+    centerInPanel(di,si);
+  }
+
+  // Update player UI
+  document.getElementById("player-stop").textContent=stop.nome;
+  document.getElementById("player-day").textContent=`${day.data} · ${stop.categoria||""}`;
+  const pct=Math.round((idx/(allStops.length-1))*100);
+  document.getElementById("progress-fill").style.width=pct+"%";
+  document.getElementById("progress-label").textContent=`${idx+1} / ${allStops.length}`;
+}
+
+function playerGoto(idx){
+  playerIdx=Math.max(0,Math.min(allStops.length-1,idx));
+  focusStop(playerIdx);
+}
+
+function playerPlay(){
+  playing=true;
+  document.getElementById("btn-play").textContent="⏸";
+  playTimer=setInterval(()=>{
+    if(playerIdx>=allStops.length-1){ playerPause(); return; }
+    playerGoto(playerIdx+1);
+  },3500);
+}
+function playerPause(){
+  playing=false;
+  document.getElementById("btn-play").textContent="▶";
+  clearInterval(playTimer);
+}
+function togglePlay(){
+  if(playing) playerPause(); else playerPlay();
+}
+
+function openPlayer(){
+  playerOpen=true;
+  document.getElementById("player").classList.add("visible");
+  document.getElementById("player-toggle").textContent="✕";
+  document.getElementById("player-toggle").title="Chiudi player";
+  playerGoto(playerIdx);
+}
+function closePlayer(){
+  playerOpen=false;
+  playerPause();
+  document.getElementById("player").classList.remove("visible");
+  document.getElementById("player-toggle").textContent="🎬";
+  document.getElementById("player-toggle").title="Avvia tour animato";
+  if(transitionLine){ map.removeLayer(transitionLine); transitionLine=null; }
+}
+
+// ── panel centering ───────────────────────────────────────────────────────────
+function centerInPanel(di,si){
+  const el=document.getElementById("stop-"+di+"-"+si);
+  if(!el) return;
+  const fixedH=521;
+  const elRect=el.getBoundingClientRect();
+  const elCenter=elRect.top+elRect.height/2;
+  const visibleCenter=fixedH+(window.innerHeight-fixedH)/2;
+  const delta=elCenter-visibleCenter;
+  window.scrollBy({top:delta,behavior:"smooth"});
+}
+
+// ── modal ─────────────────────────────────────────────────────────────────────
+function openModal(di,si){
+  const day=GIORNI[di],stop=day.tappe[si];
+  document.getElementById("m-icon").textContent=stop.icona||"📍";
+  document.getElementById("m-icon").style.background=day.colore+"22";
+  document.getElementById("m-title").textContent=stop.nome;
+  document.getElementById("m-date").textContent=`${day.data} · ${stop.categoria||""}`;
+  let html=`<div class="info-grid">`;
+  html+=`<div class="info-label">Stato</div><div><span class="badge ${badgeClass(stop.stato)}">${stop.stato||"—"}</span></div>`;
+  if(stop.costo&&stop.costo!=="—") html+=`<div class="info-label">Costo (4 pers.)</div><div class="info-value">${stop.costo}</div>`;
+  if(stop.distanza&&stop.distanza!=="—") html+=`<div class="info-label">Distanza</div><div class="info-value">${stop.distanza}</div>`;
+  html+=`</div>`;
+  if(stop.desc_breve){
+    html+=`<div class="desc-breve">${toLines(stop.desc_breve)}`;
+    if(stop.desc_lunga){
+      html+=`<span class="toggle-desc" onclick="toggleDesc(this)">↓ Maggiori dettagli</span>`;
+      html+=`<div class="desc-lunga">${toLines(stop.desc_lunga)}</div>`;
+    }
+    html+=`</div>`;
+  }
+  document.getElementById("m-body").innerHTML=html;
+  document.getElementById("modal-overlay").classList.add("open");
+  document.querySelectorAll(".stop").forEach(el=>el.classList.remove("active"));
+  document.getElementById(`stop-${di}-${si}`)?.classList.add("active");
+}
+function toggleDesc(el){
+  const desc=el.nextElementSibling;
+  const isOpen=desc.classList.toggle("open");
+  el.textContent=isOpen?"↑ Nascondi dettagli":"↓ Maggiori dettagli";
+}
+function closeModal(){
+  document.getElementById("modal-overlay").classList.remove("open");
+  document.querySelectorAll(".stop").forEach(el=>el.classList.remove("active"));
+}
+document.getElementById("modal-overlay").onclick=e=>{if(e.target===e.currentTarget)closeModal()};
+
+// ── build UI from JSON ────────────────────────────────────────────────────────
 function buildUI(data){
   const v=data.viaggio||{};
   document.getElementById("trip-title").textContent=v.titolo||"Itinerario";
   document.getElementById("trip-sub").textContent=(v.date||"")+(v.persone?" · "+v.persone+" persone":"");
-
   GIORNI=data.giorni||[];
+  buildStopList();
+
   const panel=document.getElementById("panel");
   panel.innerHTML="";
   const allCoords=[];
@@ -127,7 +317,7 @@ function buildUI(data){
   GIORNI.forEach((day,di)=>{
     const tappe=day.tappe||[];
     const coords=tappe.filter(t=>t.lat).map(t=>[t.lat,t.lng]);
-    if(coords.length>1) L.polyline(coords,{color:day.colore,weight:3,opacity:.75,dashArray:"7,5"}).addTo(map);
+    if(coords.length>1) L.polyline(coords,{color:day.colore,weight:2,opacity:.45,dashArray:"7,5"}).addTo(map);
 
     tappe.forEach((stop,si)=>{
       if(!stop.lat) return;
@@ -140,6 +330,7 @@ function buildUI(data){
       const m=L.marker([stop.lat,stop.lng],{icon}).addTo(map);
       m.bindPopup(`<div class="popup-title">${stop.nome}</div><div class="popup-day">${day.data} · ${stop.categoria||""}</div>`);
       m.on("click",()=>{
+        playerPause();
         openModal(di,si);
         const el=document.getElementById(`stop-${di}-${si}`);
         const db=el?.closest(".day-body");
@@ -164,11 +355,9 @@ function buildUI(data){
       body.classList.toggle("open");
       document.getElementById(`chev-${di}`).style.transform=body.classList.contains("open")?"rotate(180deg)":"";
     };
-
     tappe.forEach((stop,si)=>{
       const row=document.createElement("div");
-      row.className="stop";
-      row.id=`stop-${di}-${si}`;
+      row.className="stop"; row.id=`stop-${di}-${si}`;
       row.innerHTML=`
         <div class="stop-icon" style="background:${day.colore}22">${stop.icona||"📍"}</div>
         <div class="stop-info">
@@ -181,6 +370,7 @@ function buildUI(data){
           </div>
         </div>`;
       row.onclick=()=>{
+        playerPause();
         openModal(di,si);
         if(!body.classList.contains("open")){
           body.classList.add("open");
@@ -196,7 +386,6 @@ function buildUI(data){
       };
       body.appendChild(row);
     });
-
     sec.appendChild(hdr); sec.appendChild(body);
     panel.appendChild(sec);
   });
@@ -204,69 +393,29 @@ function buildUI(data){
   if(allCoords.length) map.fitBounds(allCoords,{padding:[30,30]});
 }
 
-function centerInPanel(di,si){
-  const el=document.getElementById("stop-"+di+"-"+si);
-  if(!el) return;
-  const fixedH=521;
-  const elRect=el.getBoundingClientRect();
-  const elCenter=elRect.top+elRect.height/2;
-  const visibleCenter=fixedH+(window.innerHeight-fixedH)/2;
-  const delta=elCenter-visibleCenter;
-  window.scrollBy({top:delta,behavior:"smooth"});
-}
-
-function openModal(di,si){
-  const day=GIORNI[di], stop=day.tappe[si];
-  document.getElementById("m-icon").textContent=stop.icona||"📍";
-  document.getElementById("m-icon").style.background=day.colore+"22";
-  document.getElementById("m-title").textContent=stop.nome;
-  document.getElementById("m-date").textContent=`${day.data} · ${stop.categoria||""}`;
-
-  let html=`<div class="info-grid">`;
-  html+=`<div class="info-label">Stato</div><div><span class="badge ${badgeClass(stop.stato)}">${stop.stato||"—"}</span></div>`;
-  if(stop.costo&&stop.costo!=="—") html+=`<div class="info-label">Costo (4 pers.)</div><div class="info-value">${stop.costo}</div>`;
-  if(stop.distanza&&stop.distanza!=="—") html+=`<div class="info-label">Distanza</div><div class="info-value">${stop.distanza}</div>`;
-  html+=`</div>`;
-
-  // desc_breve + toggle per desc_lunga
-  if(stop.desc_breve){
-    html+=`<div class="desc-breve">${toLines(stop.desc_breve)}`;
-    if(stop.desc_lunga){
-      html+=`<span class="toggle-desc" onclick="toggleDesc(this)">↓ Maggiori dettagli</span>`;
-      html+=`<div class="desc-lunga">${toLines(stop.desc_lunga)}</div>`;
-    }
-    html+=`</div>`;
-  }
-
-  document.getElementById("m-body").innerHTML=html;
-  document.getElementById("modal-overlay").classList.add("open");
-  document.querySelectorAll(".stop").forEach(el=>el.classList.remove("active"));
-  document.getElementById(`stop-${di}-${si}`)?.classList.add("active");
-}
-
-function toggleDesc(el){
-  const desc=el.nextElementSibling;
-  const isOpen=desc.classList.toggle("open");
-  el.textContent=isOpen?"↑ Nascondi dettagli":"↓ Maggiori dettagli";
-}
-
-function closeModal(){
-  document.getElementById("modal-overlay").classList.remove("open");
-  document.querySelectorAll(".stop").forEach(el=>el.classList.remove("active"));
-}
-document.getElementById("modal-overlay").onclick=e=>{if(e.target===e.currentTarget)closeModal()};
-
+// ── init ──────────────────────────────────────────────────────────────────────
 window.addEventListener("load",()=>{
   map=L.map("map",{center:[32.76,-17.0],zoom:10});
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
     attribution:'&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',maxZoom:18
   }).addTo(map);
 
+  // Player controls
+  document.getElementById("btn-play").onclick=togglePlay;
+  document.getElementById("btn-prev").onclick=()=>{ playerPause(); playerGoto(playerIdx-1); };
+  document.getElementById("btn-next").onclick=()=>{ playerPause(); playerGoto(playerIdx+1); };
+  document.getElementById("player-toggle").onclick=()=>{ playerOpen?closePlayer():openPlayer(); };
+  document.getElementById("progress-bar").onclick=function(e){
+    const pct=e.offsetX/this.clientWidth;
+    playerPause();
+    playerGoto(Math.round(pct*(allStops.length-1)));
+  };
+
   fetch("tappe.json")
     .then(r=>{if(!r.ok) throw new Error("File non trovato"); return r.json();})
     .then(data=>buildUI(data))
     .catch(err=>{
-      document.getElementById("panel").innerHTML=`<div style="padding:24px;color:#9b1c1c;font-size:14px">❌ Errore nel caricamento di tappe.json:<br>${err.message}<br><br>Assicurati che tappe.json sia nella stessa cartella di index.html.</div>`;
+      document.getElementById("panel").innerHTML=`<div style="padding:24px;color:#9b1c1c;font-size:14px">❌ Errore nel caricamento di tappe.json:<br>${err.message}</div>`;
     });
 });
 </script>
