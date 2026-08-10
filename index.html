@@ -101,7 +101,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v1.1</span>
+      <span id="version-badge">v1.2</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -221,22 +221,23 @@ function focusStop(idx, skipAnim){
   }
 
   const doMap=()=>{
-    map.setView([stop.lat,stop.lng],13,{animate:!skipAnim,duration:.8});
-    setTimeout(()=>{
-      // Calcola offset per centrare il marker nella zona visibile della mappa
-      // tenendo conto dell'altezza del player (se aperto)
-      const playerBar=document.getElementById("player-bar");
-      const progressWrap=document.getElementById("progress-wrap");
-      const playerH=(playerBar&&playerBar.classList.contains("visible"))
-        ? (playerBar.offsetHeight||0)+(progressWrap&&progressWrap.style.display!=="none"?progressWrap.offsetHeight:0)
-        : 0;
-      const mapH=map.getSize().y;
-      const visibleCenter=(mapH-playerH)/2;
-      const mapCenter=mapH/2;
-      const offsetY=Math.round(visibleCenter-mapCenter); // negativo = sposta su
-      map.panBy([0,offsetY],{animate:!skipAnim});
-      markers[di+"-"+si]?.openPopup();
-    },skipAnim?50:400);
+    // Calcola offset in pixel per centrare nella zona visibile (sopra il player)
+    const playerBar=document.getElementById("player-bar");
+    const progressWrap=document.getElementById("progress-wrap");
+    const playerH=(playerBar&&playerBar.classList.contains("visible"))
+      ? (playerBar.offsetHeight||0)+(progressWrap&&progressWrap.style.display!=="none"?progressWrap.offsetHeight:0)
+      : 0;
+    const mapH=map.getSize().y;
+    // offsetY in pixel: positivo = centro visibile è sopra il centro mappa
+    const offsetPx=Math.round(playerH/2);
+    // Converti offset pixel in gradi latitudine allo zoom 13
+    const offsetLatLng=map.unproject(
+      map.project([stop.lat,stop.lng],13).subtract([0,-offsetPx]),13
+    );
+    // Punto da centrare: leggermente più a nord del marker
+    const centerTarget=[offsetLatLng.lat,stop.lng];
+    map.setView(centerTarget,13,{animate:!skipAnim,duration:.8});
+    setTimeout(()=>{ markers[di+"-"+si]?.openPopup(); },skipAnim?80:850);
   };
 
   if(skipAnim){
@@ -424,14 +425,15 @@ function buildUI(data){
         document.querySelectorAll(".stop").forEach(e=>e.classList.remove("active"));
         row.classList.add("active");
         if(stop.lat){
-          map.setView([stop.lat,stop.lng],13,{animate:false});
-          const mapH2=map.getSize().y;
-          const pb=document.getElementById("player-bar");
-          const pw=document.getElementById("progress-wrap");
-          const pH=(pb&&pb.classList.contains("visible"))
-            ?(pb.offsetHeight||0)+(pw&&pw.style.display!=="none"?pw.offsetHeight:0):0;
-          const offsetY2=Math.round((mapH2-pH)/2-mapH2/2);
-          map.panBy([0,offsetY2],{animate:true});
+          const pb2=document.getElementById("player-bar");
+          const pw2=document.getElementById("progress-wrap");
+          const pH2=(pb2&&pb2.classList.contains("visible"))
+            ?(pb2.offsetHeight||0)+(pw2&&pw2.style.display!=="none"?pw2.offsetHeight:0):0;
+          const offPx2=Math.round(pH2/2);
+          const cTarget2=map.unproject(
+            map.project([stop.lat,stop.lng],map.getZoom()).subtract([0,-offPx2]),map.getZoom()
+          );
+          map.setView([cTarget2.lat,stop.lng],13,{animate:true,duration:.5});
           markers[di+"-"+si]?.openPopup();
         }
         centerInPanel(di,si);
