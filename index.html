@@ -35,7 +35,7 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
 
 #panel{margin-top:521px;background:#f5f5f3;padding-bottom:16px}
 .day-section{border-bottom:1px solid #e0ddd6}
-.day-header{display:flex;align-items:center;gap:10px;padding:11px 16px;background:#fff;cursor:pointer;user-select:none;border-bottom:1px solid #e0ddd6}
+.day-header{display:flex;align-items:center;gap:10px;padding:11px 16px;background:#fff;cursor:pointer;user-select:none;border-bottom:1px solid #e0ddd6;position:sticky;top:0;z-index:50}
 .day-header:hover{background:#fafaf8}
 .day-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
 .day-label{font-size:14px;font-weight:600;color:#1a1a18}
@@ -111,7 +111,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v1.6</span>
+      <span id="version-badge">v1.7</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
