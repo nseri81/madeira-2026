@@ -97,6 +97,7 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
         <div id="player-day">—</div>
       </div>
       <div id="player-controls">
+        <button class="p-btn" id="btn-restart" title="Ricomincia dall'inizio">⏮</button>
         <button class="p-btn" id="btn-prev" title="Tappa precedente">◀</button>
         <button class="p-btn primary" id="btn-play" title="Play / Pausa">▶</button>
         <button class="p-btn" id="btn-next" title="Tappa successiva">▶▶</button>
@@ -239,12 +240,14 @@ function togglePlay(){
 
 function openPlayer(){
   playerOpen=true;
+  playerIdx=0;
   document.getElementById("player-bar").classList.add("visible");
   document.getElementById("progress-wrap").style.display="flex";
   document.getElementById("player-toggle").textContent="⏹";
   document.getElementById("player-toggle").title="Chiudi player";
   adjustLayout();
-  playerGoto(playerIdx);
+  // Aspetta che il layout sia aggiornato prima di mostrare la prima tappa
+  setTimeout(()=>{ playerGoto(0); }, 150);
 }
 function closePlayer(){
   playerOpen=false;
@@ -415,6 +418,7 @@ window.addEventListener("load",()=>{
 
   // Player controls
   document.getElementById("btn-play").onclick=togglePlay;
+  document.getElementById("btn-restart").onclick=()=>{ playerPause(); playerGoto(0); };
   document.getElementById("btn-prev").onclick=()=>{ playerPause(); playerGoto(playerIdx-1); };
   document.getElementById("btn-next").onclick=()=>{ playerPause(); playerGoto(playerIdx+1); };
   document.getElementById("player-toggle").onclick=()=>{ playerOpen?closePlayer():openPlayer(); };
