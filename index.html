@@ -111,7 +111,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v2.1</span>
+      <span id="version-badge">v2.2</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -272,11 +272,18 @@ function showDayBanner(day, callback){
   document.getElementById("day-banner-date").textContent=day.data;
   document.getElementById("day-banner-label").textContent="Giorno "+(GIORNI.indexOf(day)+1);
   document.getElementById("day-banner-sub").textContent=day.tappe.filter(t=>t.lat).length+" tappe";
-  b.classList.add("show");
-  setTimeout(()=>{
-    b.classList.remove("show");
-    setTimeout(callback, 380);
-  }, 1600);
+  // Forza reflow prima della transizione, poi doppio rAF per garantire il paint
+  b.classList.remove("show");
+  void b.offsetHeight; // trigger reflow
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      b.classList.add("show");
+      setTimeout(()=>{
+        b.classList.remove("show");
+        setTimeout(callback, 400);
+      }, 1800);
+    });
+  });
 }
 
 function playerGoto(idx, skipAnim){
