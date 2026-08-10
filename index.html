@@ -81,7 +81,7 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
 #day-banner{position:fixed;top:0;left:0;width:100%;height:100%;z-index:500;
   display:flex;align-items:center;justify-content:center;
   background:rgba(15,25,55,.82);backdrop-filter:blur(4px);
-  pointer-events:none;opacity:0;transition:opacity .35s}
+  pointer-events:none;opacity:0;transition:opacity .4s ease-in-out}
 #day-banner.show{opacity:1}
 #day-banner-inner{text-align:center;color:#fff}
 #day-banner-date{font-size:13px;font-weight:500;opacity:.7;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
@@ -111,7 +111,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v1.9</span>
+      <span id="version-badge">v2.0</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -321,11 +321,21 @@ function openPlayer(){
   document.getElementById("progress-wrap").style.display="flex";
   document.getElementById("player-toggle").textContent="⏹";
   document.getElementById("player-toggle").title="Chiudi player";
-  adjustLayout();
-  // Mostra banner del primo giorno poi prima tappa
-  setTimeout(()=>{
-    showDayBanner(GIORNI[0], ()=>{ playerGoto(0, true); });
-  }, 250);
+  // Lascia che il DOM aggiorni l'altezza dell'header
+  requestAnimationFrame(()=>{
+    adjustLayout();
+    map.invalidateSize();
+    // Poi mostra il banner del primo giorno
+    setTimeout(()=>{
+      showDayBanner(GIORNI[0], ()=>{
+        // Dopo il banner, aspetta un frame extra prima di muovere la mappa
+        requestAnimationFrame(()=>{
+          map.invalidateSize();
+          playerGoto(0, true);
+        });
+      });
+    }, 100);
+  });
 }
 function closePlayer(){
   playerOpen=false;
@@ -535,7 +545,12 @@ window.addEventListener("load",()=>{
 
   // Player controls
   document.getElementById("btn-play").onclick=togglePlay;
-  document.getElementById("btn-restart").onclick=()=>{ playerPause(); showDayBanner(GIORNI[0],()=>{ playerGoto(0, true); }); };
+  document.getElementById("btn-restart").onclick=()=>{
+    playerPause();
+    showDayBanner(GIORNI[0],()=>{
+      requestAnimationFrame(()=>{ map.invalidateSize(); playerGoto(0, true); });
+    });
+  };
   document.getElementById("btn-prev").onclick=()=>{ playerPause(); playerGoto(playerIdx-1); };
   document.getElementById("btn-next").onclick=()=>{ playerPause(); playerGoto(playerIdx+1); };
   document.getElementById("player-toggle").onclick=()=>{ playerOpen?closePlayer():openPlayer(); };
