@@ -77,6 +77,16 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
 .toggle-desc{display:inline-block;margin-top:8px;font-size:12px;color:#1F3864;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .toggle-desc:hover{color:#2E75B6}
 .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+/* day banner */
+#day-banner{position:fixed;top:0;left:0;width:100%;height:100%;z-index:500;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(15,25,55,.82);backdrop-filter:blur(4px);
+  pointer-events:none;opacity:0;transition:opacity .35s}
+#day-banner.show{opacity:1}
+#day-banner-inner{text-align:center;color:#fff}
+#day-banner-date{font-size:13px;font-weight:500;opacity:.7;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+#day-banner-label{font-size:32px;font-weight:700;letter-spacing:.02em}
+#day-banner-sub{font-size:13px;opacity:.6;margin-top:6px}
 /* fullscreen */
 body.map-fullscreen #panel{display:none}
 body.map-fullscreen #map{height:calc(100vh - 41px)}
@@ -101,7 +111,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v1.5</span>
+      <span id="version-badge">v1.6</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -127,6 +137,14 @@ body.map-fullscreen #progress-wrap{display:none!important}
 
 
 <!-- Modal dettaglio -->
+<div id="day-banner">
+  <div id="day-banner-inner">
+    <div id="day-banner-date"></div>
+    <div id="day-banner-label"></div>
+    <div id="day-banner-sub"></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div class="modal-header">
@@ -249,6 +267,18 @@ function focusStop(idx, skipAnim){
   }
 }
 
+function showDayBanner(day, callback){
+  const b=document.getElementById("day-banner");
+  document.getElementById("day-banner-date").textContent=day.data;
+  document.getElementById("day-banner-label").textContent="Giorno "+(GIORNI.indexOf(day)+1);
+  document.getElementById("day-banner-sub").textContent=day.tappe.filter(t=>t.lat).length+" tappe";
+  b.classList.add("show");
+  setTimeout(()=>{
+    b.classList.remove("show");
+    setTimeout(callback, 380);
+  }, 1600);
+}
+
 function playerGoto(idx, skipAnim){
   playerIdx=Math.max(0,Math.min(allStops.length-1,idx));
   focusStop(playerIdx, skipAnim);
@@ -259,7 +289,20 @@ function playerPlay(){
   document.getElementById("btn-play").textContent="⏸";
   playTimer=setInterval(()=>{
     if(playerIdx>=allStops.length-1){ playerPause(); return; }
-    playerGoto(playerIdx+1);
+    const nextIdx=playerIdx+1;
+    const curDay=allStops[playerIdx].di;
+    const nextDay=allStops[nextIdx].di;
+    if(nextDay!==curDay){
+      // Cambio giorno: mostra banner poi vai alla tappa
+      playerPause();
+      showDayBanner(GIORNI[nextDay],()=>{
+        playerIdx=nextIdx;
+        focusStop(playerIdx, false);
+        playerPlay();
+      });
+    } else {
+      playerGoto(nextIdx);
+    }
   },3500);
 }
 function playerPause(){
