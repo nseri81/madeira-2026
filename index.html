@@ -18,8 +18,7 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
 #map{width:100%;height:480px}
 
 /* ── TOPBAR con player integrato ── */
-#player-bar{display:none;align-items:center;gap:8px;background:#163058;padding:8px 16px;border-top:1px solid rgba(255,255,255,.1)}
-#player-bar.visible{display:flex}
+#player-bar{display:flex;align-items:center;gap:8px;background:#163058;padding:8px 16px;border-top:1px solid rgba(255,255,255,.1)}
 #player-info{flex:1;min-width:0}
 #player-stop{font-size:11px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #player-day{font-size:10px;color:rgba(255,255,255,.55);margin-top:1px}
@@ -29,6 +28,7 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
 .p-btn.primary{width:36px;height:36px;font-size:16px;background:rgba(255,255,255,.22)}
 .p-btn.primary:hover{background:rgba(255,255,255,.38)}
 #progress-wrap{display:flex;align-items:center;gap:6px;padding:0 16px 8px;background:#163058}
+/* progress sempre visibile — no display:none */
 #progress-bar{flex:1;height:3px;background:rgba(255,255,255,.2);border-radius:2px;cursor:pointer}
 #progress-fill{height:100%;background:#fff;border-radius:2px;transition:width .3s}
 #progress-label{font-size:10px;color:rgba(255,255,255,.5);white-space:nowrap;min-width:34px;text-align:right}
@@ -97,6 +97,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
 #btn-fullscreen{background:rgba(255,255,255,.18);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
 #btn-fullscreen:hover{background:rgba(255,255,255,.32)}
 #version-badge{font-size:10px;opacity:.45;margin-left:4px;align-self:center}
+#player-toggle{display:none}
 .leaflet-popup-content{margin:10px 14px;font-family:system-ui,sans-serif;font-size:13px}
 .popup-title{font-weight:700;margin-bottom:2px;color:#1a1a18}
 .popup-day{color:#888;font-size:11px}
@@ -109,9 +110,9 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span style="font-size:20px">✈</span>
       <span class="topbar-title" id="trip-title">Madeira 2026</span>
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
-      <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
+
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v2.2</span>
+      <span id="version-badge">v2.3</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -125,7 +126,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
         <button class="p-btn" id="btn-next" title="Tappa successiva">▶▶</button>
       </div>
     </div>
-    <div id="progress-wrap" style="display:none">
+    <div id="progress-wrap">
       <div id="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
       <div id="progress-label">0 / 0</div>
     </div>
@@ -322,13 +323,9 @@ function togglePlay(){
 }
 
 function openPlayer(){
-  if(!allStops.length) return; // dati non ancora caricati
+  if(!allStops.length) return;
   playerOpen=true;
   playerIdx=0;
-  document.getElementById("player-bar").classList.add("visible");
-  document.getElementById("progress-wrap").style.display="flex";
-  document.getElementById("player-toggle").textContent="⏹";
-  document.getElementById("player-toggle").title="Chiudi player";
 
   // Aggiorna subito nome tappa e progress bar con i dati della prima tappa
   const first=allStops[0];
@@ -340,7 +337,6 @@ function openPlayer(){
   requestAnimationFrame(()=>{
     adjustLayout();
     map.invalidateSize();
-    // Mostra banner del primo giorno
     setTimeout(()=>{
       showDayBanner(GIORNI[0], ()=>{
         requestAnimationFrame(()=>{
@@ -354,11 +350,6 @@ function openPlayer(){
 function closePlayer(){
   playerOpen=false;
   playerPause();
-  document.getElementById("player-bar").classList.remove("visible");
-  document.getElementById("progress-wrap").style.display="none";
-  document.getElementById("player-toggle").textContent="🎬";
-  document.getElementById("player-toggle").title="Tour animato";
-  adjustLayout();
   if(transitionLine){ map.removeLayer(transitionLine); transitionLine=null; }
 }
 
@@ -529,6 +520,8 @@ function buildUI(data){
   });
 
   if(allCoords.length) map.fitBounds(allCoords,{padding:[30,30]});
+  // Avvia player automaticamente
+  setTimeout(()=>openPlayer(), 800);
 }
 
 // ── init ──────────────────────────────────────────────────────────────────────
@@ -567,7 +560,7 @@ window.addEventListener("load",()=>{
   };
   document.getElementById("btn-prev").onclick=()=>{ playerPause(); playerGoto(playerIdx-1); };
   document.getElementById("btn-next").onclick=()=>{ playerPause(); playerGoto(playerIdx+1); };
-  document.getElementById("player-toggle").onclick=()=>{ playerOpen?closePlayer():openPlayer(); };
+
 
   // Fullscreen map toggle
   document.getElementById("btn-fullscreen").onclick=()=>{
@@ -575,7 +568,7 @@ window.addEventListener("load",()=>{
     document.body.classList.toggle("map-fullscreen", mapFullscreen);
     document.getElementById("btn-fullscreen").textContent=mapFullscreen?"⛿":"⛶";
     document.getElementById("btn-fullscreen").title=mapFullscreen?"Ripristina vista":"Mappa a schermo intero";
-    if(mapFullscreen && playerOpen) closePlayer();
+    // In fullscreen nascondi solo la barra player, non fermare lo stato
     setTimeout(()=>{ map.invalidateSize(); adjustLayout(); }, 50);
   };
   document.getElementById("progress-bar").onclick=function(e){
