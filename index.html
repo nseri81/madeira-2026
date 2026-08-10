@@ -211,8 +211,18 @@ function focusStop(idx, skipAnim){
   const doMap=()=>{
     map.setView([stop.lat,stop.lng],13,{animate:!skipAnim,duration:.8});
     setTimeout(()=>{
+      // Calcola offset per centrare il marker nella zona visibile della mappa
+      // tenendo conto dell'altezza del player (se aperto)
+      const playerBar=document.getElementById("player-bar");
+      const progressWrap=document.getElementById("progress-wrap");
+      const playerH=(playerBar&&playerBar.classList.contains("visible"))
+        ? (playerBar.offsetHeight||0)+(progressWrap&&progressWrap.style.display!=="none"?progressWrap.offsetHeight:0)
+        : 0;
       const mapH=map.getSize().y;
-      map.panBy([0,-mapH/4],{animate:!skipAnim});
+      const visibleCenter=(mapH-playerH)/2;
+      const mapCenter=mapH/2;
+      const offsetY=Math.round(visibleCenter-mapCenter); // negativo = sposta su
+      map.panBy([0,offsetY],{animate:!skipAnim});
       markers[di+"-"+si]?.openPopup();
     },skipAnim?50:400);
   };
@@ -403,8 +413,13 @@ function buildUI(data){
         row.classList.add("active");
         if(stop.lat){
           map.setView([stop.lat,stop.lng],13,{animate:false});
-          const mapH=map.getSize().y;
-          map.panBy([0,-mapH/4],{animate:true});
+          const mapH2=map.getSize().y;
+          const pb=document.getElementById("player-bar");
+          const pw=document.getElementById("progress-wrap");
+          const pH=(pb&&pb.classList.contains("visible"))
+            ?(pb.offsetHeight||0)+(pw&&pw.style.display!=="none"?pw.offsetHeight:0):0;
+          const offsetY2=Math.round((mapH2-pH)/2-mapH2/2);
+          map.panBy([0,offsetY2],{animate:true});
           markers[di+"-"+si]?.openPopup();
         }
         centerInPanel(di,si);
