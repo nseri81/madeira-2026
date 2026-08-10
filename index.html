@@ -31,10 +31,10 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
 #progress-bar{flex:1;height:4px;background:rgba(255,255,255,.2);border-radius:2px;cursor:pointer;position:relative}
 #progress-fill{height:100%;background:#fff;border-radius:2px;transition:width .3s}
 #progress-label{font-size:10px;opacity:.6;white-space:nowrap;min-width:36px;text-align:right}
-#player-toggle{position:fixed;bottom:16px;right:16px;z-index:301;background:#1F3864;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:22px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;transition:background .15s}
-#player-toggle:hover{background:#2E75B6}
+#player-toggle{position:fixed;bottom:16px;right:16px;z-index:301;background:#E8472A;color:#fff;border:3px solid #fff;border-radius:50%;width:54px;height:54px;font-size:24px;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;transition:background .15s,transform .15s}
+#player-toggle:hover{background:#c73a20;transform:scale(1.08)}
 
-#panel{margin-top:521px;background:#f5f5f3;padding-bottom:80px}
+#panel{margin-top:521px;background:#f5f5f3;padding-bottom:16px}
 .day-section{border-bottom:1px solid #e0ddd6}
 .day-header{display:flex;align-items:center;gap:10px;padding:11px 16px;background:#fff;cursor:pointer;user-select:none;border-bottom:1px solid #e0ddd6}
 .day-header:hover{background:#fafaf8}
@@ -243,6 +243,8 @@ function openPlayer(){
   document.getElementById("player").classList.add("visible");
   document.getElementById("player-toggle").textContent="✕";
   document.getElementById("player-toggle").title="Chiudi player";
+  // Aggiungi spazio in fondo alla lista per non coprire l'ultima tappa
+  document.getElementById("panel").style.paddingBottom = (document.getElementById("player").offsetHeight + 24) + "px";
   playerGoto(playerIdx);
 }
 function closePlayer(){
@@ -251,6 +253,7 @@ function closePlayer(){
   document.getElementById("player").classList.remove("visible");
   document.getElementById("player-toggle").textContent="🎬";
   document.getElementById("player-toggle").title="Avvia tour animato";
+  document.getElementById("panel").style.paddingBottom = "16px";
   if(transitionLine){ map.removeLayer(transitionLine); transitionLine=null; }
 }
 
