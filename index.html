@@ -163,37 +163,16 @@ function buildStopList(){
 }
 
 // ── map helpers ───────────────────────────────────────────────────────────────
-function focusStop(idx){
+function focusStop(idx, skipAnim){
   const {day,di,stop,si}=allStops[idx];
-  if(!stop.lat) return;
   if(transitionLine){ map.removeLayer(transitionLine); transitionLine=null; }
 
-  // Animated transition line from previous stop
-  if(idx>0){
-    const prev=allStops[idx-1];
-    if(prev.stop.lat){
-      const from=[prev.stop.lat,prev.stop.lng];
-      const to=[stop.lat,stop.lng];
-      transitionLine=L.polyline([from,to],{
-        color:day.colore, weight:5, opacity:.9, dashArray:"1,0"
-      }).addTo(map);
-      // Animate dashOffset to create drawing effect
-      let offset=200;
-      transitionLine.setStyle({dashArray:"200",dashOffset:""+offset});
-      const anim=setInterval(()=>{
-        offset=Math.max(0,offset-8);
-        transitionLine.setStyle({dashOffset:""+offset});
-        if(offset===0){ clearInterval(anim); }
-      },16);
-    }
-  }
-
-  map.setView([stop.lat,stop.lng],13,{animate:true,duration:.8});
-  setTimeout(()=>{
-    const mapH=map.getSize().y;
-    map.panBy([0,-mapH/4],{animate:true});
-    markers[di+"-"+si]?.openPopup();
-  },400);
+  // Update player UI immediately (always, even without coords)
+  document.getElementById("player-stop").textContent=stop.nome;
+  document.getElementById("player-day").textContent=`${day.data} · ${stop.categoria||""}`;
+  const pct=Math.round((idx/(allStops.length-1))*100);
+  document.getElementById("progress-fill").style.width=pct+"%";
+  document.getElementById("progress-label").textContent=`${idx+1} / ${allStops.length}`;
 
   // Highlight list row
   document.querySelectorAll(".stop").forEach(el=>el.classList.remove("active"));
@@ -208,17 +187,48 @@ function focusStop(idx){
     centerInPanel(di,si);
   }
 
-  // Update player UI
-  document.getElementById("player-stop").textContent=stop.nome;
-  document.getElementById("player-day").textContent=`${day.data} · ${stop.categoria||""}`;
-  const pct=Math.round((idx/(allStops.length-1))*100);
-  document.getElementById("progress-fill").style.width=pct+"%";
-  document.getElementById("progress-label").textContent=`${idx+1} / ${allStops.length}`;
+  if(!stop.lat) return;
+
+  // Animated transition line from previous stop (skip on first or when skipAnim)
+  if(!skipAnim && idx>0){
+    const prev=allStops[idx-1];
+    if(prev.stop.lat){
+      const from=[prev.stop.lat,prev.stop.lng];
+      const to=[stop.lat,stop.lng];
+      transitionLine=L.polyline([from,to],{
+        color:day.colore, weight:5, opacity:.9, dashArray:"1,0"
+      }).addTo(map);
+      let offset=200;
+      transitionLine.setStyle({dashArray:"200",dashOffset:""+offset});
+      const anim=setInterval(()=>{
+        offset=Math.max(0,offset-8);
+        transitionLine.setStyle({dashOffset:""+offset});
+        if(offset===0){ clearInterval(anim); }
+      },16);
+    }
+  }
+
+  const doMap=()=>{
+    map.setView([stop.lat,stop.lng],13,{animate:!skipAnim,duration:.8});
+    setTimeout(()=>{
+      const mapH=map.getSize().y;
+      map.panBy([0,-mapH/4],{animate:!skipAnim});
+      markers[di+"-"+si]?.openPopup();
+    },skipAnim?50:400);
+  };
+
+  if(skipAnim){
+    // Forza un invalidateSize prima di posizionarsi
+    map.invalidateSize();
+    setTimeout(doMap, 80);
+  } else {
+    doMap();
+  }
 }
 
-function playerGoto(idx){
+function playerGoto(idx, skipAnim){
   playerIdx=Math.max(0,Math.min(allStops.length-1,idx));
-  focusStop(playerIdx);
+  focusStop(playerIdx, skipAnim);
 }
 
 function playerPlay(){
@@ -246,8 +256,8 @@ function openPlayer(){
   document.getElementById("player-toggle").textContent="⏹";
   document.getElementById("player-toggle").title="Chiudi player";
   adjustLayout();
-  // Aspetta che il layout sia aggiornato prima di mostrare la prima tappa
-  setTimeout(()=>{ playerGoto(0); }, 150);
+  // Aspetta che il layout sia aggiornato, poi mostra la prima tappa senza animazione
+  setTimeout(()=>{ playerGoto(0, true); }, 200);
 }
 function closePlayer(){
   playerOpen=false;
@@ -418,7 +428,7 @@ window.addEventListener("load",()=>{
 
   // Player controls
   document.getElementById("btn-play").onclick=togglePlay;
-  document.getElementById("btn-restart").onclick=()=>{ playerPause(); playerGoto(0); };
+  document.getElementById("btn-restart").onclick=()=>{ playerPause(); playerGoto(0, true); };
   document.getElementById("btn-prev").onclick=()=>{ playerPause(); playerGoto(playerIdx-1); };
   document.getElementById("btn-next").onclick=()=>{ playerPause(); playerGoto(playerIdx+1); };
   document.getElementById("player-toggle").onclick=()=>{ playerOpen?closePlayer():openPlayer(); };
