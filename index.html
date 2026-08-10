@@ -77,6 +77,16 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
 .toggle-desc{display:inline-block;margin-top:8px;font-size:12px;color:#1F3864;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .toggle-desc:hover{color:#2E75B6}
 .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+/* fullscreen */
+body.map-fullscreen #panel{display:none}
+body.map-fullscreen #map{height:calc(100vh - 41px)}
+body.map-fullscreen #map-wrap{bottom:0}
+body.map-fullscreen #player{display:none!important}
+body.map-fullscreen #player-bar{display:none!important}
+body.map-fullscreen #progress-wrap{display:none!important}
+#btn-fullscreen{background:rgba(255,255,255,.18);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
+#btn-fullscreen:hover{background:rgba(255,255,255,.32)}
+#version-badge{font-size:10px;opacity:.45;margin-left:4px;align-self:center}
 .leaflet-popup-content{margin:10px 14px;font-family:system-ui,sans-serif;font-size:13px}
 .popup-title{font-weight:700;margin-bottom:2px;color:#1a1a18}
 .popup-day{color:#888;font-size:11px}
@@ -90,6 +100,8 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
       <span class="topbar-title" id="trip-title">Madeira 2026</span>
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
+      <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
+      <span id="version-badge">v1.0</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -444,8 +456,14 @@ window.addEventListener("load",()=>{
   function adjustLayout(){
     const h=document.getElementById("topbar-wrap").offsetHeight;
     document.getElementById("map-wrap").style.top=h+"px";
-    document.getElementById("map").style.height="480px";
-    document.getElementById("panel").style.marginTop=(h+480)+"px";
+    if(mapFullscreen){
+      const mapH=window.innerHeight-h;
+      document.getElementById("map").style.height=mapH+"px";
+      document.getElementById("panel").style.marginTop=(h+mapH)+"px";
+    } else {
+      document.getElementById("map").style.height="480px";
+      document.getElementById("panel").style.marginTop=(h+480)+"px";
+    }
     map.invalidateSize();
   }
   adjustLayout();
@@ -456,6 +474,17 @@ window.addEventListener("load",()=>{
   document.getElementById("btn-prev").onclick=()=>{ playerPause(); playerGoto(playerIdx-1); };
   document.getElementById("btn-next").onclick=()=>{ playerPause(); playerGoto(playerIdx+1); };
   document.getElementById("player-toggle").onclick=()=>{ playerOpen?closePlayer():openPlayer(); };
+
+  // Fullscreen map toggle
+  let mapFullscreen=false;
+  document.getElementById("btn-fullscreen").onclick=()=>{
+    mapFullscreen=!mapFullscreen;
+    document.body.classList.toggle("map-fullscreen", mapFullscreen);
+    document.getElementById("btn-fullscreen").textContent=mapFullscreen?"⛿":"⛶";
+    document.getElementById("btn-fullscreen").title=mapFullscreen?"Ripristina vista":"Mappa a schermo intero";
+    if(mapFullscreen && playerOpen) closePlayer();
+    setTimeout(()=>{ map.invalidateSize(); adjustLayout(); }, 50);
+  };
   document.getElementById("progress-bar").onclick=function(e){
     const pct=e.offsetX/this.clientWidth;
     playerPause();
