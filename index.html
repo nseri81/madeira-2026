@@ -35,7 +35,7 @@ html,body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5
 
 #panel{margin-top:521px;background:#f5f5f3;padding-bottom:16px}
 .day-section{border-bottom:1px solid #e0ddd6}
-.day-header{display:flex;align-items:center;gap:10px;padding:11px 16px;background:#fff;cursor:pointer;user-select:none;border-bottom:1px solid #e0ddd6;position:sticky;top:0;z-index:50}
+.day-header{display:flex;align-items:center;gap:10px;padding:11px 16px;background:#fff;cursor:pointer;user-select:none;border-bottom:1px solid #e0ddd6;position:sticky;top:var(--topbar-h,521px);z-index:50}
 .day-header:hover{background:#fafaf8}
 .day-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
 .day-label{font-size:14px;font-weight:600;color:#1a1a18}
@@ -111,7 +111,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
       <button class="p-btn" id="player-toggle" title="Tour animato" style="margin-left:8px;flex-shrink:0">🎬</button>
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v1.8</span>
+      <span id="version-badge">v1.9</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -322,8 +322,10 @@ function openPlayer(){
   document.getElementById("player-toggle").textContent="⏹";
   document.getElementById("player-toggle").title="Chiudi player";
   adjustLayout();
-  // Aspetta che il layout sia aggiornato, poi mostra la prima tappa senza animazione
-  setTimeout(()=>{ playerGoto(0, true); }, 200);
+  // Mostra banner del primo giorno poi prima tappa
+  setTimeout(()=>{
+    showDayBanner(GIORNI[0], ()=>{ playerGoto(0, true); });
+  }, 250);
 }
 function closePlayer(){
   playerOpen=false;
@@ -526,12 +528,14 @@ window.addEventListener("load",()=>{
       document.getElementById("panel").style.marginTop=(h+480)+"px";
     }
     map.invalidateSize();
+    // Aggiorna variabile CSS per sticky headers
+    document.documentElement.style.setProperty('--topbar-h', (h+480)+'px');
   }
   adjustLayout();
 
   // Player controls
   document.getElementById("btn-play").onclick=togglePlay;
-  document.getElementById("btn-restart").onclick=()=>{ playerPause(); playerGoto(0, true); };
+  document.getElementById("btn-restart").onclick=()=>{ playerPause(); showDayBanner(GIORNI[0],()=>{ playerGoto(0, true); }); };
   document.getElementById("btn-prev").onclick=()=>{ playerPause(); playerGoto(playerIdx-1); };
   document.getElementById("btn-next").onclick=()=>{ playerPause(); playerGoto(playerIdx+1); };
   document.getElementById("player-toggle").onclick=()=>{ playerOpen?closePlayer():openPlayer(); };
