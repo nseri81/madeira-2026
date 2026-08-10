@@ -283,6 +283,10 @@ function centerInPanel(di,si){
 }
 
 // ── modal ─────────────────────────────────────────────────────────────────────
+function openModalFromPopup(di,si){
+  map.closePopup();
+  openModal(di,si);
+}
 function openModal(di,si){
   const day=GIORNI[di],stop=day.tappe[si];
   document.getElementById("m-icon").textContent=stop.icona||"📍";
@@ -344,16 +348,18 @@ function buildUI(data){
         iconSize:[30,30],iconAnchor:[15,15],className:""
       });
       const m=L.marker([stop.lat,stop.lng],{icon}).addTo(map);
-      m.bindPopup(`<div class="popup-title">${stop.nome}</div><div class="popup-day">${day.data} · ${stop.categoria||""}</div>`);
+      m.bindPopup(`<div class="popup-title">${stop.nome}</div><div class="popup-day">${day.data} · ${stop.categoria||""}</div><div style="margin-top:6px"><span class="popup-detail-link" onclick="openModalFromPopup(${di},${si})" style="font-size:12px;color:#1F3864;font-weight:600;cursor:pointer;text-decoration:underline">↓ Maggiori dettagli</span></div>`);
       m.on("click",()=>{
         playerPause();
-        openModal(di,si);
+        // Evidenzia nella lista ma NON apre il modal
         const el=document.getElementById(`stop-${di}-${si}`);
         const db=el?.closest(".day-body");
         if(db&&!db.classList.contains("open")){
           db.classList.add("open");
           document.getElementById(`chev-${di}`).style.transform="rotate(180deg)";
         }
+        document.querySelectorAll(".stop").forEach(e=>e.classList.remove("active"));
+        el?.classList.add("active");
         centerInPanel(di,si);
       });
       markers[key]=m;
@@ -387,11 +393,13 @@ function buildUI(data){
         </div>`;
       row.onclick=()=>{
         playerPause();
-        openModal(di,si);
+        // Click sulla lista: centra mappa e apre popup, NON il modal
         if(!body.classList.contains("open")){
           body.classList.add("open");
           document.getElementById(`chev-${di}`).style.transform="rotate(180deg)";
         }
+        document.querySelectorAll(".stop").forEach(e=>e.classList.remove("active"));
+        row.classList.add("active");
         if(stop.lat){
           map.setView([stop.lat,stop.lng],13,{animate:false});
           const mapH=map.getSize().y;
