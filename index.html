@@ -112,7 +112,7 @@ body.map-fullscreen #progress-wrap{display:none!important}
       <span class="topbar-sub" id="trip-sub">caricamento...</span>
 
       <button id="btn-fullscreen" title="Mappa a schermo intero" style="margin-left:4px">⛶</button>
-      <span id="version-badge">v2.3</span>
+      <span id="version-badge">v2.4</span>
     </div>
     <div id="player-bar">
       <div id="player-info">
@@ -357,12 +357,15 @@ function closePlayer(){
 function centerInPanel(di,si){
   const el=document.getElementById("stop-"+di+"-"+si);
   if(!el) return;
-  // Calcola altezza header dinamicamente (cambia quando il player è aperto)
-  const fixedH=document.getElementById("topbar-wrap").offsetHeight+480;
+  const topbarH=document.getElementById("topbar-wrap").offsetHeight;
+  const fixedH=topbarH+480;
+  // Aggiungi altezza del day-header sticky per non coprire la tappa
+  const dayHeader=el.closest(".day-section")?.querySelector(".day-header");
+  const dayHeaderH=dayHeader?dayHeader.offsetHeight:0;
   const elRect=el.getBoundingClientRect();
-  const elCenter=elRect.top+elRect.height/2;
-  const visibleCenter=fixedH+(window.innerHeight-fixedH)/2;
-  const delta=elCenter-visibleCenter;
+  // Vogliamo che il top della tappa sia visibile subito sotto il day-header
+  const targetTop=fixedH+dayHeaderH+12; // 12px margine
+  const delta=elRect.top-targetTop;
   window.scrollBy({top:delta,behavior:"smooth"});
 }
 
